@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 // Set the base URL for Axios

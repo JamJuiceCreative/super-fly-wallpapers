@@ -1,22 +1,28 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import DesignPage from './pages/DesignPage';
-
+import Navbar from 'react-bootstrap/Navbar';
+import Container from 'react-bootstrap/Container';
+import { LinkContainer } from 'react-router-bootstrap';
 const App = () => {
   return (
-    <Router>
+    <BrowserRouter>
       <div className="App">
         <header className="App-header">
-          <div className="flex justify-center items-center h-120 w-screen">
-            <a href="/">
-              <img
-                src="/images/SuperFlyWallPapersLogo.svg"
-                className="w-3/4 sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2 mx-auto"
-                alt="superfly wallpapers logo"
-              />
-            </a>
-          </div>
+        <Navbar bg="white" variant="dark">
+      <Container className="d-flex justify-content-center h-120">
+        <LinkContainer to="/">
+          <Navbar.Brand>
+            <img
+              src="/images/SuperFlyWallPapersLogo.svg"
+              className="w-75 ml-10"
+              alt="superfly wallpapers logo"
+            />
+          </Navbar.Brand>
+        </LinkContainer>
+      </Container>
+    </Navbar>
         </header>
         <main>
           <Routes>
@@ -25,7 +31,7 @@ const App = () => {
           </Routes>
         </main>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 };
 

@@ -41,25 +41,30 @@ function HomePage() {
     <div>
       <h1>Featured Designs</h1>
       <div className="designs">
-        {designs.map((design) => (
-          <div className="design" key={design.slug}>
-            <Link to={`/design/${design.slug}`}>
-              <img src={design.image} alt={design.name} />
-            </Link>
-            <div className="design-info">
+        {loading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>{error}</div>
+        ) : (
+          designs.map((design) => (
+            <div className="design" key={design.slug}>
               <Link to={`/design/${design.slug}`}>
-                <p>{design.name} </p>
+                <img src={design.image} alt={design.name} />
               </Link>
-              <p>
-                <strong>From ${design.price} </strong>
-              </p>
-              <button>Add to Cart</button>
+              <div className="design-info">
+                <Link to={`/design/${design.slug}`}>
+                  <p>{design.name} </p>
+                </Link>
+                <p>
+                  <strong>From ${design.price} </strong>
+                </p>
+                <button>Add to Cart</button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
 }
-
 export default HomePage;
