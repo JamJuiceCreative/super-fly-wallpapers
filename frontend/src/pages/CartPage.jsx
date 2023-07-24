@@ -19,7 +19,7 @@ export default function CartPage() {
   } = state;
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/designs/${item._id}`);
-    if (data.printToOrder === 0) {
+    if (data.printToOrder === false) {
       window.alert('Sorry. Design is currently not available for print');
       return;
     }
@@ -77,7 +77,7 @@ export default function CartPage() {
                         onClick={() =>
                           updateCartHandler(item, item.quantity + 1)
                         }
-                        disabled={item.printToOrder === 0}
+                        disabled={item.printToOrder === false}
                       >
                         <i className="fas fa-plus-circle"></i>
                       </Button>

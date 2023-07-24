@@ -53,7 +53,7 @@ function DesignPage() {
     const existItem = cart.cartItems.find((x) => x._id === design._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/designs/${design._id}`);
-    if (data.printToOrder === 0) {
+    if (data.printToOrder === false) {
       window.alert('Sorry. Design is currently not available for print');
       return;
     }
@@ -109,7 +109,7 @@ function DesignPage() {
                   <Row>
                     <Col>Availability:</Col>
                     <Col>
-                      {design.printToOrder > 0 ? (
+                      {design.printToOrder === true ? (
                         <Badge bg="lime-green" className="lime-green-badge">
                           Print to Order
                         </Badge>
@@ -119,7 +119,7 @@ function DesignPage() {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-                {design.printToOrder > 0 && (
+                {design.printToOrder === true && (
                   <ListGroup.Item>
                     <div className="d-grid">
                       <Button onClick={addToCartHandler} variant="primary">

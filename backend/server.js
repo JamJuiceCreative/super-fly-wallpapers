@@ -3,8 +3,26 @@ import data from './data.js';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import seedRouter from './routes/seedRoutes.js';
+import designRouter from './routes/designRoutes.js';
+import userRouter from './routes/userRoutes.js';
+
+dotenv.config();
+
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log('connected to db');
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
 
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/api/seed', seedRouter);
 
 // Configure CORS to allow requests from your frontend domain
 const corsOptions = {
@@ -14,25 +32,11 @@ const corsOptions = {
 // Enable CORS with the specified options
 app.use(cors(corsOptions));
 
-app.get('/api/designs', (req, res) => {
-  res.send(data.designs);
-});
+app.use('/api/designs', designRouter);
+app.use('/api/users', userRouter);
 
-app.get('/api/designs/slug/:slug', (req, res) => {
-  const design = data.designs.find((x) => x.slug === req.params.slug);
-  if (design) {
-    res.send(design);
-  } else {
-    res.status(404).send({ message: 'Design Not Found' });
-  }
-});
-app.get('/api/designs/:id', (req, res) => {
-  const design = data.designs.find((x) => x._id === req.params.id);
-  if (design) {
-    res.send(design);
-  } else {
-    res.status(404).send({ message: 'Design Not Found' });
-  }
+app.use((err, req, res, next) => {
+  res.status(500).send({ message: err.message });
 });
 
 const port = process.env.PORT || 5000;

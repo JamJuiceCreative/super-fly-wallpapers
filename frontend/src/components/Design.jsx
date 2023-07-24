@@ -16,7 +16,7 @@ function Design(props) {
     const existItem = cartItems.find((x) => x._id === design._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/designs/${item._id}`);
-    if (data.printToOrder === 0) {
+    if (data.printToOrder === false) {
       window.alert('Sorry. Design is currently not available for print');
       return;
     }
@@ -38,7 +38,7 @@ function Design(props) {
         <Card.Text>
           <strong>From ${design.price} </strong>
         </Card.Text>
-        {design.printToOrder === 0 ? (
+        {design.printToOrder === false ? (
           <Button variant="light" disabled>
             Not Available
           </Button>
