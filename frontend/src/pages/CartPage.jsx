@@ -63,7 +63,7 @@ export default function CartPage() {
                     </Col>
                     <Col md={3}>
                       <Button
-                        Variant="light"
+                        variant="light"
                         onClick={() =>
                           updateCartHandler(item, item.quantity - 1)
                         }
@@ -73,7 +73,7 @@ export default function CartPage() {
                       </Button>{' '}
                       <span> {item.quantity} </span>{' '}
                       <Button
-                        Variant="light"
+                        variant="light"
                         onClick={() =>
                           updateCartHandler(item, item.quantity + 1)
                         }
