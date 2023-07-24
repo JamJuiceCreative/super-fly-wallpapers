@@ -21,20 +21,48 @@
   background-color: #666e75;
   border-radius: 5px;
 }
+.site-container {
+  min-height: 100vh;
+}
 
+main {
+  flex: 1;
+}
 h1 {
-  color: black;
+  font-size: 2rem;
+  color: #542d8e;
   font-weight: bold;
   text-decoration: none;
 }
 
-main {
-  padding: 2rem;
+.btn-primary {
+  border: none;
+  background-color: #542d8e;
+  color: #ffffff;
 }
+.btn-primary:hover {
+  background-color: limegreen;
+  outline: none;
+  box-shadow: none;
+}
+
+.btn-primary:disabled {
+  background-color: #a67bf7;
+}
+
+.lime-green-badge {
+  background-color: limegreen;
+  color: white;
+}
+
 .designs {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.rating span {
+  color: #542d8e;
 }
 
 .design {
@@ -47,9 +75,29 @@ main {
   max-width: 400px;
 }
 
-
+.design-title {
+  height: 3rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* white-space: nowrap; */
+}
 
 .design-info {
   padding: 1rem;
 }
 
+.design-info {
+  padding: 1rem;
+}
+
+.img-large {
+  max-width: 100%;
+}
+
+.img-thumbnail {
+  height: 80px;
+}
+
+.small-container {
+  max-width: 600px;
+}

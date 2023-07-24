@@ -1,7 +1,13 @@
 import { useEffect, useState, useReducer } from 'react';
 // import data from '../data';
-import { Link } from 'react-router-dom';
+
 import axios from 'axios';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Design from '../components/Design';
+import { Helmet } from 'react-helmet-async';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -26,6 +32,7 @@ function HomePage() {
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
+
       try {
         const result = await axios.get('/api/designs');
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
@@ -38,30 +45,24 @@ function HomePage() {
     fetchData();
   }, []);
   return (
-    <div>
-      <h1>Featured Designs</h1>
+    <div className="m-5">
+      <Helmet>
+        <title>Superfly Wallpapers</title>
+      </Helmet>
+      <h1 className="mb-5">Featured Designs</h1>
       <div className="designs">
         {loading ? (
-          <div>Loading...</div>
+          <LoadingBox />
         ) : error ? (
-          <div>{error}</div>
+          <MessageBox variant="danger">{error}</MessageBox>
         ) : (
-          designs.map((design) => (
-            <div className="design" key={design.slug}>
-              <Link to={`/design/${design.slug}`}>
-                <img src={design.image} alt={design.name} />
-              </Link>
-              <div className="design-info">
-                <Link to={`/design/${design.slug}`}>
-                  <p>{design.name} </p>
-                </Link>
-                <p>
-                  <strong>From ${design.price} </strong>
-                </p>
-                <button>Add to Cart</button>
-              </div>
-            </div>
-          ))
+          <Row>
+            {designs.map((design) => (
+              <Col key={design.slug} sm={6} md={4} lg={3} className="mb-3">
+                <Design design={design}></Design>
+              </Col>
+            ))}
+          </Row>
         )}
       </div>
     </div>

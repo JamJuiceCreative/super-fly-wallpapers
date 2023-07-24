@@ -1,6 +1,8 @@
 import express from 'express';
 import data from './data.js';
 import cors from 'cors';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 const app = express();
 
@@ -14,6 +16,23 @@ app.use(cors(corsOptions));
 
 app.get('/api/designs', (req, res) => {
   res.send(data.designs);
+});
+
+app.get('/api/designs/slug/:slug', (req, res) => {
+  const design = data.designs.find((x) => x.slug === req.params.slug);
+  if (design) {
+    res.send(design);
+  } else {
+    res.status(404).send({ message: 'Design Not Found' });
+  }
+});
+app.get('/api/designs/:id', (req, res) => {
+  const design = data.designs.find((x) => x._id === req.params.id);
+  if (design) {
+    res.send(design);
+  } else {
+    res.status(404).send({ message: 'Design Not Found' });
+  }
 });
 
 const port = process.env.PORT || 5000;

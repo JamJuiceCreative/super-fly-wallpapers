@@ -1,6 +1,7 @@
 const data = {
   designs: [
     {
+      _id: '1',
       name: 'Pirate Adventure',
       slug: 'pirate-adventure',
       category: 'Cartoons & Animation',
@@ -14,18 +15,20 @@ const data = {
         'cartoon, animation style pirate adventure on the seven seas.',
     },
     {
+      _id: '2',
       name: 'Monkey Kong Village',
       slug: 'monkey-king-village',
       category: 'Video Games',
       image: '/images/monkey-kong-village.png',
       price: 85,
-      printToOrder: 1,
+      printToOrder: 0,
       style: 'video-game',
       rating: 5,
       numReviews: 15,
       description: '3D video game style monkey kong village',
     },
     {
+      _id: '3',
       name: 'Mario Watercolour Pattern',
       slug: 'mario-water-colour pattern',
       category: 'Video Games',
@@ -39,6 +42,7 @@ const data = {
         'water colour style mario themed characters wallpaper pattern',
     },
     {
+      _id: '4',
       name: 'Dark City Heroes',
       slug: 'dark-city-heroes',
       category: 'Comics and Popular Culture',
