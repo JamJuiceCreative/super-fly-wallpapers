@@ -44,7 +44,7 @@ orderRouter.put(
     const order = await Order.findById(req.params.id);
     if (order) {
       order.isPaid = true;
-      order.paidAt = Date.now();
+      order.paidOn = Date.now();
       order.paymentResult = {
         id: req.body.id,
         status: req.body.status,

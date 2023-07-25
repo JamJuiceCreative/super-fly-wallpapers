@@ -28,16 +28,15 @@ app.get('/api/keys/paypal', (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
 });
 
-app.use('/api/seed', seedRouter);
-
 // Configure CORS to allow requests from your frontend domain
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: ['http://localhost:5173', 'http://localhost:3000'], // Add more origins if needed
 };
 
 // Enable CORS with the specified options
 app.use(cors(corsOptions));
 
+app.use('/api/seed', seedRouter);
 app.use('/api/designs', designRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);

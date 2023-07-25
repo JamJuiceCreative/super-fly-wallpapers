@@ -35,7 +35,7 @@ function reducer(state, action) {
       return state;
   }
 }
-export default function OrderScreen() {
+export default function OrderPage() {
   const { state } = useContext(Store);
   const { userInfo } = state;
 
@@ -220,8 +220,8 @@ export default function OrderScreen() {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Tax</Col>
-                    <Col>${order.taxPrice.toFixed(2)}</Col>
+                    <Col>GST</Col>
+                    <Col>${order.gstPrice.toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
