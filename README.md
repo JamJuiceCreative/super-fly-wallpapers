@@ -87,7 +87,6 @@ Deployment Platform: Heroku<br>
 * Navigation no longer requires hamburger menu and can be displayed in full. 
 * As the components are displayed in sections multiple components can now be displayed on the various pages where applicable.
 
-
 ![tablet wire frame](./docs/wireframe-tablet.png)
 
 ### _Desktop:_
