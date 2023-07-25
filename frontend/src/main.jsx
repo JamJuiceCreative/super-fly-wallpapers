@@ -9,7 +9,7 @@ import './index.css';
 import { StoreProvider } from './Store.jsx';
 
 // Set the base URL for Axios
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = 'https://superfly-wallpapers-e6d83528d884.herokuapp.com/';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
