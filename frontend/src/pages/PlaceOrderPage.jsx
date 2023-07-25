@@ -66,8 +66,8 @@ export default function PlaceOrderPage() {
       );
       ctxDispatch({ type: 'CART_CLEAR' });
       dispatch({ type: 'CREATE_SUCCESS' });
-      localStorage.removeItem('cartItem');
-      navigate(`/order/${data.order_id}`);
+      localStorage.removeItem('cartItems');
+      navigate(`/order/${data.order._id}`);
     } catch (err) {
       dispatch({ type: 'CREATE_FAIL' });
       toast.error(getError(err));
