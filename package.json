@@ -1,0 +1,16 @@
+{
+  "name": "super-fly-wallpapers",
+  "version": "1.0.0",
+  "description": "An e-commerce platform to sell wall papers & wide format graphics targeted at streamers/ gamers as opposed to your standard baby nursery/ interior decor demographic.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
+    "start": "node backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
