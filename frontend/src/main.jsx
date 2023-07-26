@@ -8,8 +8,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import { StoreProvider } from './Store.jsx';
 
-// Set the base URL for Axios
-axios.defaults.baseURL = 'https://superfly-wallpapers-e6d83528d884.herokuapp.com/';
+// Set the base URL for Axios Local Development
+axios.defaults.baseURL = 'http://localhost:5000';
+// Set the base URL for Deployed Site
+// axios.defaults.baseURL = 'https://superfly-wallpapers-e6d83528d884.herokuapp.com/';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

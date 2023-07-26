@@ -20,11 +20,11 @@ const data = {
       // _id: '1',
       name: 'Pirate Adventure',
       slug: 'pirate-adventure',
-      category: 'Cartoons & Animation',
+      category: 'Cartoons and Animation',
       image: '/images/pirate-adventure.png',
       price: 85,
       printToOrder: true,
-      style: 'animation',
+      style: 'Cartoons & Animation',
       rating: 4.5,
       numReviews: 10,
       description:
@@ -33,7 +33,7 @@ const data = {
     {
       // _id: '2',
       name: 'Monkey Kong Village',
-      slug: 'monkey-king-village',
+      slug: 'monkey-kong-village',
       category: 'Video Games',
       image: '/images/monkey-kong-village.png',
       price: 85,

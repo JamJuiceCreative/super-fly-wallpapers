@@ -35,7 +35,8 @@ h1 {
   text-decoration: none;
 }
 
-.btn-primary {
+.btn-primary,
+.btn-outline-primary {
   border: none;
   background-color: #542d8e;
   color: #ffffff;
@@ -110,4 +111,36 @@ h1 {
 .checkout-steps > div.active {
   border-bottom: 0.2rem solid #542d8e;
   color: #542d8e;
+}
+
+/* side bar */
+
+.navbar-style {
+  font-weight: bold;
+}
+.side-navbar {
+  width: 240px;
+  height: 100%;
+  position: absolute;
+  left: -300px;
+  background-color: #100901;
+  transition: 0.5s;
+}
+.site-container {
+  transition: 0.4s;
+}
+.active.cont {
+  margin-left: 240px;
+}
+
+.active-nav {
+  left: 0;
+}
+.site-container.active-cont {
+  margin-left: 240px; /* Adjust the value as needed to match the sidebar width */
+  transition: margin-left 0.4s ease; /* Add transition effect to smooth animation */
+}
+
+.text-bold {
+  font-weight: bold;
 }
