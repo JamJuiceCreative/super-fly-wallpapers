@@ -25,8 +25,10 @@ import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
 import ProtectedRoute from './components/ProtectedRoute';
 import OrderHistoryPage from './pages/OrderHistoryPage';
+import DashboardPage from './pages/DashboardPage';
+import AdminRoute from './components/AdminRoute';
 
-const App = () => {
+function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
@@ -35,9 +37,10 @@ const App = () => {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('shippingAddress');
     localStorage.removeItem('paymentMethod');
+    window.location.href = '/signin';
   };
 
-  const [sidebarIsOpen, setSideBarIsOpen] = useState(false);
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -51,7 +54,6 @@ const App = () => {
     };
     fetchCategories();
   }, []);
-
   return (
     <BrowserRouter>
       <div
@@ -63,11 +65,11 @@ const App = () => {
       >
         <Toaster position="top-center" limit={1} />
         <header className="App-header">
-          <Navbar bg="white" variant="light">
-            <Container className="d-flex justify-content-center justify-content-md-start h-120">
+          <Navbar bg="dark" variant="dark" expand="lg">
+            <Container>
               <Button
-                variant="primary"
-                onClick={() => setSideBarIsOpen(!sidebarIsOpen)}
+                variant="dark"
+                onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
               >
                 <i className="fas fa-bars"></i>
               </Button>
@@ -81,40 +83,57 @@ const App = () => {
                 </Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav"></Navbar.Collapse>
-              <SearchBox />
-              <Nav className="me-auto w-100 justify-content-end">
-                <Link to="/cart" className="nav-Link">
-                  Cart
-                  {cart.cartItems.length > 0 && (
-                    <Badge pill bg="danger">
-                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                    </Badge>
-                  )}
-                </Link>
-                {userInfo ? (
-                  <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
-                    <LinkContainer to="/profile">
-                      <NavDropdown.Item>User Profile</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/orderhistory">
-                      <NavDropdown.Item>Order History</NavDropdown.Item>
-                    </LinkContainer>
-                    <NavDropdown.Divider />
-                    <Link
-                      className="dropdown-item"
-                      to="#signout"
-                      onClick={signoutHandler}
-                    >
-                      Sign Out
-                    </Link>
-                  </NavDropdown>
-                ) : (
-                  <Link className="nav-link" to="/signin">
-                    Sign In
+              <Navbar.Collapse id="basic-nav-bar-nav">
+                <SearchBox />
+                <Nav className="me-auto w-100 justify-content-end">
+                  <Link to="/cart" className="nav-link">
+                    Cart
+                    {cart.cartItems.length > 0 && (
+                      <Badge pill bg="danger">
+                        {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                      </Badge>
+                    )}
                   </Link>
-                )}
-              </Nav>
+                  {userInfo ? (
+                    <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                      <LinkContainer to="/profile">
+                        <NavDropdown.Item>User Profile</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/orderhistory">
+                        <NavDropdown.Item>Order History</NavDropdown.Item>
+                      </LinkContainer>
+                      <NavDropdown.Divider />
+                      <Link
+                        className="dropdown-item"
+                        to="/signout"
+                        onClick={signoutHandler}
+                      >
+                        Sign Out
+                      </Link>
+                    </NavDropdown>
+                  ) : (
+                    <Link className="nav-link" to="/signin">
+                      Sign In
+                    </Link>
+                  )}
+                  {userInfo && userInfo.isAdmin && (
+                    <NavDropdown title="Admin" id="admin-nav-dropdown">
+                      <LinkContainer to="/admin/dashboard">
+                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/designlist">
+                        <NavDropdown.Item>Designs</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/designlist">
+                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/designlist">
+                        <NavDropdown.Item>Users</NavDropdown.Item>
+                      </LinkContainer>
+                    </NavDropdown>
+                  )}
+                </Nav>
+              </Navbar.Collapse>
             </Container>
           </Navbar>
         </header>
@@ -133,7 +152,7 @@ const App = () => {
               <Nav.Item key={category}>
                 <LinkContainer
                   to={`/search/category=${category}`}
-                  onClick={() => setSideBarIsOpen(false)}
+                  onClick={() => setSidebarIsOpen(false)}
                 >
                   <Nav.Link>{category}</Nav.Link>
                 </LinkContainer>
@@ -166,19 +185,36 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
-              <Route path ="/orderhistory" element={<ProtectedRoute><OrderHistoryPage /></ProtectedRoute>}/>
-              <Route path="/shipping" element={<ShippingAddressPage />}></Route>
-              <Route path="/payment" element={<PaymentMethodPage />}></Route>
+              <Route
+                path="/orderhistory"
+                element={
+                  <ProtectedRoute>
+                    <OrderHistoryPage />{' '}
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/shipping" element={<ShippingAddressPage />} />
+              <Route path="/payment" element={<PaymentMethodPage />} />
+              {/* Admin Routes */}
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <AdminRoute>
+                    <DashboardPage />
+                  </AdminRoute>
+                }
+              ></Route>
               <Route path="/" element={<HomePage />} />
             </Routes>
           </Container>
         </main>
         <footer>
-          <div className="text-center">SuperFly Wallpapers © 2023</div>
+          <div className="text-center">All rights reserved</div>
         </footer>
       </div>
     </BrowserRouter>
   );
-};
+}
 
 export default App;
+

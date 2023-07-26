@@ -136,7 +136,7 @@ export default function SearchPage() {
       </Helmet>
       <Row>
         <Col md={3}>
-          <h3>Categories</h3>
+          <h3>Department</h3>
           <div>
             <ul>
               <li>
@@ -150,7 +150,7 @@ export default function SearchPage() {
               {categories.map((c) => (
                 <li key={c}>
                   <Link
-                    className={c.trim() === category.trim() ? 'text-bold' : ''}
+                    className={c === category ? 'text-bold' : ''}
                     to={getFilterUrl({ category: c })}
                   >
                     {c}
@@ -249,7 +249,9 @@ export default function SearchPage() {
                   </select>
                 </Col>
               </Row>
-              {designs.length === 0 && <MessageBox>No Design Found</MessageBox>}
+              {designs.length === 0 && (
+                <MessageBox>No Design Found</MessageBox>
+              )}
 
               <Row>
                 {designs.map((design) => (
