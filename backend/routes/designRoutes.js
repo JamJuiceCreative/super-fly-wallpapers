@@ -1,7 +1,8 @@
 import express from 'express';
-import Design from '../models/designModel.js';
 import expressAsyncHandler from 'express-async-handler';
+import Design from '../models/designModel.js';
 import { isAuth, isAdmin } from '../utils.js';
+
 const designRouter = express.Router();
 
 designRouter.get('/', async (req, res) => {
@@ -17,17 +18,41 @@ designRouter.post(
     const newDesign = new Design({
       name: 'sample name ' + Date.now(),
       slug: 'sample-name-' + Date.now(),
-      image: 'images/invincible-super-heroes.png',
+      image: 'images/rubber-ducks.png',
       price: 0,
       category: 'sample category',
       style: 'sample style',
-      printToOrder: false,
+      printToOrder: true,
       rating: 0,
       numReviews: 0,
       description: 'sample description',
     });
     const design = await newDesign.save();
     res.send({ message: 'Design Created', design });
+  })
+);
+
+designRouter.put(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const designId = req.params.id;
+    const design = await Design.findById(designId);
+    if (design) {
+      design.name = req.body.name;
+      design.slug = req.body.slug;
+      design.price = req.body.price;
+      design.image = req.body.image;
+      design.category = req.body.category;
+      design.style = req.body.style;
+      design.printToOrder = req.body.printToOrder;
+      design.description = req.body.description;
+      await design.save();
+      res.send({ message: 'Design Updated' });
+    } else {
+      res.status(404).send({ message: 'Design Not Found' });
+    }
   })
 );
 
@@ -41,6 +66,7 @@ designRouter.get(
     const { query } = req;
     const page = query.page || 1;
     const pageSize = query.pageSize || PAGE_SIZE;
+
     const designs = await Design.find()
       .skip(pageSize * (page - 1))
       .limit(pageSize);
@@ -61,11 +87,11 @@ designRouter.get(
     const pageSize = query.pageSize || PAGE_SIZE;
     const page = query.page || 1;
     const category = query.category || '';
-    const style = query.brand || '';
     const price = query.price || '';
     const rating = query.rating || '';
     const order = query.order || '';
     const searchQuery = query.query || '';
+
     const queryFilter =
       searchQuery && searchQuery !== 'all'
         ? {
@@ -106,6 +132,7 @@ designRouter.get(
         : order === 'newest'
         ? { createdAt: -1 }
         : { _id: -1 };
+
     const designs = await Design.find({
       ...queryFilter,
       ...categoryFilter,
@@ -115,13 +142,13 @@ designRouter.get(
       .sort(sortOrder)
       .skip(pageSize * (page - 1))
       .limit(pageSize);
+
     const countDesigns = await Design.countDocuments({
       ...queryFilter,
       ...categoryFilter,
       ...priceFilter,
       ...ratingFilter,
     });
-
     res.send({
       designs,
       countDesigns,

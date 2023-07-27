@@ -38,7 +38,7 @@ const reducer = (state, action) => {
   }
 };
 
-export default function DesignListScreen() {
+export default function DesignListPage() {
   const [{ loading, error, designs, pages, loadingCreate }, dispatch] =
     useReducer(reducer, {
       loading: true,
@@ -67,7 +67,7 @@ export default function DesignListScreen() {
   }, [page, userInfo]);
 
   const createHandler = async () => {
-    if (window.confirm('Are you sure to create?')) {
+    if (window.confirm('Are you ready to create?')) {
       try {
         dispatch({ type: 'CREATE_REQUEST' });
         const { data } = await axios.post(
@@ -92,12 +92,12 @@ export default function DesignListScreen() {
     <div>
       <Row>
         <Col>
-          <h1>designs</h1>
+          <h1>Designs</h1>
         </Col>
         <Col className="col text-end">
           <div>
             <Button type="button" onClick={createHandler}>
-              Create design
+              Create Design
             </Button>
           </div>
         </Col>
@@ -119,6 +119,7 @@ export default function DesignListScreen() {
                 <th>PRICE</th>
                 <th>CATEGORY</th>
                 <th>STYLE</th>
+                <th>ACTIONS</th>
               </tr>
             </thead>
             <tbody>
@@ -128,7 +129,16 @@ export default function DesignListScreen() {
                   <td>{design.name}</td>
                   <td>{design.price}</td>
                   <td>{design.category}</td>
-                  <td>{design.style}</td>
+                  <td>{design.brand}</td>
+                  <td>
+                    <Button
+                      type="button"
+                      variant="light"
+                      onClick={() => navigate(`/admin/design/${design._id}`)}
+                    >
+                      Edit
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
