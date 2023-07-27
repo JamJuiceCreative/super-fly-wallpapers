@@ -1,12 +1,36 @@
 import express from 'express';
 import Design from '../models/designModel.js';
 import expressAsyncHandler from 'express-async-handler';
-import { isAuth, isAdmin } from '../utils.js'
+import { isAuth, isAdmin } from '../utils.js';
 const designRouter = express.Router();
+
 designRouter.get('/', async (req, res) => {
   const designs = await Design.find();
   res.send(designs);
 });
+
+designRouter.post(
+  '/',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const newDesign = new Design({
+      name: 'sample name ' + Date.now(),
+      slug: 'sample-name-' + Date.now(),
+      image: 'images/invincible-super-heroes.png',
+      price: 0,
+      category: 'sample category',
+      style: 'sample style',
+      printToOrder: false,
+      rating: 0,
+      numReviews: 0,
+      description: 'sample description',
+    });
+    const design = await newDesign.save();
+    res.send({ message: 'Design Created', design });
+  })
+);
+
 const PAGE_SIZE = 3;
 
 designRouter.get(
