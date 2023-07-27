@@ -68,7 +68,7 @@ function App() {
           <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
               <Button
-                variant="dark"
+                variant="primary"
                 onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
               >
                 <i className="fas fa-bars"></i>
@@ -77,12 +77,13 @@ function App() {
                 <Navbar.Brand>
                   <img
                     src="/images/SuperFlyWallPapersLogo.svg"
-                    className="w-75 ml-10"
+                    className="w-40 "
                     alt="superfly wallpapers logo"
                   />
                 </Navbar.Brand>
               </LinkContainer>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Toggle aria-controls="basic-navbar-nav" className ="
+              nav-bar-toggle-menu" />
               <Navbar.Collapse id="basic-nav-bar-nav">
                 <SearchBox />
                 <Nav className="me-auto w-100 justify-content-end">
@@ -168,6 +169,7 @@ function App() {
               <Route path="/search" element={<SearchPage />} />
               <Route path="/signin" element={<SigninPage />} />
               <Route path="/signup" element={<SignupPage />} />
+              
               <Route
                 path="/profile"
                 element={
@@ -209,7 +211,7 @@ function App() {
           </Container>
         </main>
         <footer>
-          <div className="text-center">All rights reserved</div>
+          <div className="text-center">Superfly Wallpapers © 2023</div>
         </footer>
       </div>
     </BrowserRouter>
@@ -217,4 +219,3 @@ function App() {
 }
 
 export default App;
-

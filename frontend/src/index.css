@@ -36,7 +36,7 @@ h1 {
 }
 
 .btn-primary,
-.btn-outline-primary {
+.btn-outline-primary, .nav-bar-toggle-menu {
   border: none;
   background-color: #542d8e;
   color: #ffffff;
