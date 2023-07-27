@@ -7,6 +7,7 @@ import seedRouter from './routes/seedRoutes.js';
 import designRouter from './routes/designRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
+import uploadRouter from './routes/uploadRoutes.js';
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ const corsOptions = {
 // Enable CORS with the specified options
 app.use(cors(corsOptions));
 
+app.use('/api/upload', uploadRouter);
 app.use('/api/seed', seedRouter);
 app.use('/api/designs', designRouter);
 app.use('/api/users', userRouter);
