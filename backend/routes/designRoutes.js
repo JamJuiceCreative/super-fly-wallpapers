@@ -56,6 +56,21 @@ designRouter.put(
   })
 );
 
+designRouter.delete(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const design = await Design.findById(req.params.id);
+    if (design) {
+      await design.deleteOne();
+      res.send({ message: 'Design Deleted' });
+    } else {
+      res.status(404).send({ message: 'Design Not Found' });
+    }
+  })
+);
+
 const PAGE_SIZE = 3;
 
 designRouter.get(
