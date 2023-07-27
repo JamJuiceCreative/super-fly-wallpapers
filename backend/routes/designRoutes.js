@@ -1,13 +1,34 @@
 import express from 'express';
 import Design from '../models/designModel.js';
 import expressAsyncHandler from 'express-async-handler';
-
+import { isAuth, isAdmin } from '../utils.js'
 const designRouter = express.Router();
 designRouter.get('/', async (req, res) => {
   const designs = await Design.find();
   res.send(designs);
 });
 const PAGE_SIZE = 3;
+
+designRouter.get(
+  '/admin',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const { query } = req;
+    const page = query.page || 1;
+    const pageSize = query.pageSize || PAGE_SIZE;
+    const designs = await Design.find()
+      .skip(pageSize * (page - 1))
+      .limit(pageSize);
+    const countDesigns = await Design.countDocuments();
+    res.send({
+      designs,
+      countDesigns,
+      page,
+      pages: Math.ceil(countDesigns / pageSize),
+    });
+  })
+);
 
 designRouter.get(
   '/search',

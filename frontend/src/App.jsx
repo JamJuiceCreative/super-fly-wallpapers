@@ -27,6 +27,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import DashboardPage from './pages/DashboardPage';
 import AdminRoute from './components/AdminRoute';
+import DesignListPage from './pages/DesignListPage';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -82,8 +83,11 @@ function App() {
                   />
                 </Navbar.Brand>
               </LinkContainer>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" className ="
-              nav-bar-toggle-menu" />
+              <Navbar.Toggle
+                aria-controls="basic-navbar-nav"
+                className="
+              nav-bar-toggle-menu"
+              />
               <Navbar.Collapse id="basic-nav-bar-nav">
                 <SearchBox />
                 <Nav className="me-auto w-100 justify-content-end">
@@ -122,13 +126,13 @@ function App() {
                       <LinkContainer to="/admin/dashboard">
                         <NavDropdown.Item>Dashboard</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/designlist">
+                      <LinkContainer to="/admin/designs">
                         <NavDropdown.Item>Designs</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/designlist">
+                      <LinkContainer to="/admin/orders">
                         <NavDropdown.Item>Orders</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/designlist">
+                      <LinkContainer to="/admin/users">
                         <NavDropdown.Item>Users</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
@@ -169,7 +173,7 @@ function App() {
               <Route path="/search" element={<SearchPage />} />
               <Route path="/signin" element={<SigninPage />} />
               <Route path="/signup" element={<SignupPage />} />
-              
+
               <Route
                 path="/profile"
                 element={
@@ -203,6 +207,14 @@ function App() {
                 element={
                   <AdminRoute>
                     <DashboardPage />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/designs"
+                element={
+                  <AdminRoute>
+                    <DesignListPage />
                   </AdminRoute>
                 }
               ></Route>

@@ -24,7 +24,7 @@ const data = {
       image: '/images/pirate-adventure.png',
       price: 85,
       printToOrder: true,
-      style: 'Cartoons & Animation',
+      style: 'computer generated',
       rating: 4.5,
       numReviews: 10,
       description:
@@ -38,7 +38,7 @@ const data = {
       image: '/images/monkey-kong-village.png',
       price: 85,
       printToOrder: false,
-      style: 'video-game',
+      style: 'computer generated',
       rating: 5,
       numReviews: 15,
       description: '3D video game style monkey kong village',
@@ -51,7 +51,7 @@ const data = {
       image: '/images/mario-watercolour-pattern.png',
       price: 85,
       printToOrder: true,
-      style: 'watercolour pattern',
+      style: 'water colour',
       rating: 3,
       numReviews: 8,
       description:

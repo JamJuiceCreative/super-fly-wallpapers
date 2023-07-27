@@ -109,7 +109,7 @@ export default function DashboardScreen() {
               <Chart
                 width="100%"
                 height="400px"
-                chartType="AreaChart"
+                chartType="ColumnChart"
                 loader={<div>Loading Chart...</div>}
                 data={[
                   ['Date', 'Sales'],
