@@ -25,7 +25,7 @@ const reducer = (state, action) => {
       return state;
   }
 };
-export default function DashboardPage() {
+export default function DashboardScreen() {
   const [{ loading, summary, error }, dispatch] = useReducer(reducer, {
     loading: true,
     error: '',
@@ -39,8 +39,11 @@ export default function DashboardPage() {
         const { data } = await axios.get('/api/orders/summary', {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
+        console.log('Data received:', data); // Log the data received from the response
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
+        console.log('Error fetching data:', err.message); // Log the error message
+        console.error('Fetch Error:', err); // Log any error that occurs during the axios request
         dispatch({
           type: 'FETCH_FAIL',
           payload: getError(err),
@@ -93,7 +96,7 @@ export default function DashboardPage() {
                       ? summary.orders[0].totalSales.toFixed(2)
                       : 0}
                   </Card.Title>
-                  <Card.Text> Orders</Card.Text>
+                  <Card.Text>Total Sales</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
