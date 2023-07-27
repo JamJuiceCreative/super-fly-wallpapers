@@ -28,6 +28,7 @@ import OrderHistoryPage from './pages/OrderHistoryPage';
 import DashboardPage from './pages/DashboardPage';
 import AdminRoute from './components/AdminRoute';
 import DesignListPage from './pages/DesignListPage';
+import DesignEditPage from './pages/DesignEditPage';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -218,6 +219,14 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
+              {/* <Route
+                path="/admin/design/:id"
+                element={
+                  <AdminRoute>
+                    <DesignEditPage />
+                  </AdminRoute>
+                }
+              ></Route> */}
               <Route path="/" element={<HomePage />} />
             </Routes>
           </Container>

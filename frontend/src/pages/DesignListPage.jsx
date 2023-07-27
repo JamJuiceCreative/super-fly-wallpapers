@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Store } from '../Store';
-import { toast } from 'react-hot-toast';
-import LoadingBox from '../components/LoadingBox';
-import MessageBox from '../components/MessageBox';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import { toast } from 'react-hot-toast';
+import { Store } from '../Store';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
 import { getError } from '../utils';
 
 const reducer = (state, action) => {
@@ -38,7 +38,7 @@ const reducer = (state, action) => {
   }
 };
 
-export default function DesignListPage() {
+export default function DesignListScreen() {
   const [{ loading, error, designs, pages, loadingCreate }, dispatch] =
     useReducer(reducer, {
       loading: true,
@@ -67,7 +67,7 @@ export default function DesignListPage() {
   }, [page, userInfo]);
 
   const createHandler = async () => {
-    if (window.confirm('Are you ready?')) {
+    if (window.confirm('Are you sure to create?')) {
       try {
         dispatch({ type: 'CREATE_REQUEST' });
         const { data } = await axios.post(
@@ -88,17 +88,16 @@ export default function DesignListPage() {
       }
     }
   };
-
   return (
     <div>
       <Row>
         <Col>
-          <h1>Products</h1>
+          <h1>designs</h1>
         </Col>
         <Col className="col text-end">
           <div>
             <Button type="button" onClick={createHandler}>
-              Create Product
+              Create design
             </Button>
           </div>
         </Col>
