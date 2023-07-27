@@ -18,7 +18,7 @@ designRouter.post(
     const newDesign = new Design({
       name: 'sample name ' + Date.now(),
       slug: 'sample-name-' + Date.now(),
-      image: 'images/rubber-ducks.png',
+      image: 'images/sample-image.png',
       price: 0,
       category: 'sample category',
       style: 'sample style',

@@ -219,14 +219,14 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
-              {/* <Route
+              <Route
                 path="/admin/design/:id"
                 element={
                   <AdminRoute>
                     <DesignEditPage />
                   </AdminRoute>
                 }
-              ></Route> */}
+              ></Route>
               <Route path="/" element={<HomePage />} />
             </Routes>
           </Container>

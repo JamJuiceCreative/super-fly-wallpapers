@@ -71,6 +71,7 @@ function DesignPage() {
     <div>
       <Row>
         <Col md={6}>
+          
           <img className="img-large" src={design.image} alt={design.name}></img>
         </Col>
         <Col md={3}>

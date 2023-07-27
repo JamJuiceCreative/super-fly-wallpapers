@@ -129,7 +129,7 @@ export default function DesignListPage() {
                   <td>{design.name}</td>
                   <td>{design.price}</td>
                   <td>{design.category}</td>
-                  <td>{design.brand}</td>
+                  <td>{design.style}</td>
                   <td>
                     <Button
                       type="button"
