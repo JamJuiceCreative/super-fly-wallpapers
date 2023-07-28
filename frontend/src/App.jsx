@@ -1,16 +1,14 @@
-import React, { useContext, useState, useEffect } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
-import axios from 'axios';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { toast, Toaster } from 'react-hot-toast';
 import HomePage from './pages/HomePage';
 import DesignPage from './pages/DesignPage';
 import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
 import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Container from 'react-bootstrap/Container';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useContext, useEffect, useState } from 'react';
 import { Store } from './Store';
 import CartPage from './pages/CartPage';
 import SigninPage from './pages/SigninPage';
@@ -19,12 +17,14 @@ import SignupPage from './pages/SignupPage';
 import PaymentMethodPage from './pages/PaymentMethodPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import OrderPage from './pages/OrderPage';
+import OrderHistoryPage from './pages/OrderHistoryPage';
+import ProfilePage from './pages/ProfilePage';
+import Button from 'react-bootstrap/Button';
 import { getError } from './utils';
+import axios from 'axios';
 import SearchBox from './components/SearchBox';
 import SearchPage from './pages/SearchPage';
-import ProfilePage from './pages/ProfilePage';
 import ProtectedRoute from './components/ProtectedRoute';
-import OrderHistoryPage from './pages/OrderHistoryPage';
 import DashboardPage from './pages/DashboardPage';
 import AdminRoute from './components/AdminRoute';
 import DesignListPage from './pages/DesignListPage';
@@ -35,7 +35,7 @@ import UserEditPage from './pages/UserEditPage';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart, userInfo } = state;
+  const { fullBox, cart, userInfo } = state;
 
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
@@ -44,7 +44,6 @@ function App() {
     localStorage.removeItem('paymentMethod');
     window.location.href = '/signin';
   };
-
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
 
@@ -64,13 +63,17 @@ function App() {
       <div
         className={
           sidebarIsOpen
-            ? 'd-flex flex-column site-container active-cont'
-            : 'd-flex flex-column site-container'
+            ? fullBox
+              ? 'site-container active-cont d-flex flex-column full-box'
+              : 'site-container active-cont d-flex flex-column'
+            : fullBox
+            ? 'site-container d-flex flex-column full-box'
+            : 'site-container d-flex flex-column'
         }
       >
-        <Toaster position="top-center" limit={1} />
-        <header className="App-header">
-          <Navbar bg="dark" variant="dark" expand="lg">
+        <Toaster position="bottom-center" limit={1} />
+        <header>
+          <Navbar bg="white" variant="dark" expand="lg">
             <Container>
               <Button
                 variant="primary"
@@ -78,6 +81,7 @@ function App() {
               >
                 <i className="fas fa-bars"></i>
               </Button>
+
               <LinkContainer to="/">
                 <Navbar.Brand>
                   <img
@@ -87,18 +91,14 @@ function App() {
                   />
                 </Navbar.Brand>
               </LinkContainer>
-              <Navbar.Toggle
-                aria-controls="basic-navbar-nav"
-                className="
-              nav-bar-toggle-menu"
-              />
-              <Navbar.Collapse id="basic-nav-bar-nav">
-                <SearchBox />
-                <Nav className="me-auto w-100 justify-content-end">
-                  <Link to="/cart" className="nav-link">
-                    Cart
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <SearchBox className="mt-3"/>
+                <Nav className="me-auto  w-100  justify-content-end">
+                  <Link to="/cart" className="nav-link purple-text cart-link">
+                    Cart 
                     {cart.cartItems.length > 0 && (
-                      <Badge pill bg="danger">
+                      <Badge pill bg="danger" className="ml-1 custom-badge-circle">
                         {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                       </Badge>
                     )}
@@ -114,7 +114,7 @@ function App() {
                       <NavDropdown.Divider />
                       <Link
                         className="dropdown-item"
-                        to="/signout"
+                        to="#signout"
                         onClick={signoutHandler}
                       >
                         Sign Out
@@ -160,7 +160,7 @@ function App() {
             {categories.map((category) => (
               <Nav.Item key={category}>
                 <LinkContainer
-                  to={`/search/category=${category}`}
+                  to={{ pathname: '/search', search: `category=${category}` }}
                   onClick={() => setSidebarIsOpen(false)}
                 >
                   <Nav.Link>{category}</Nav.Link>
@@ -186,6 +186,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+
               <Route path="/placeorder" element={<PlaceOrderPage />} />
               <Route
                 path="/order/:id"
@@ -194,17 +195,17 @@ function App() {
                     <OrderPage />
                   </ProtectedRoute>
                 }
-              />
+              ></Route>
               <Route
                 path="/orderhistory"
                 element={
                   <ProtectedRoute>
-                    <OrderHistoryPage />{' '}
+                    <OrderHistoryPage />
                   </ProtectedRoute>
                 }
-              />
-              <Route path="/shipping" element={<ShippingAddressPage />} />
-              <Route path="/payment" element={<PaymentMethodPage />} />
+              ></Route>
+              <Route path="/shipping" element={<ShippingAddressPage />}></Route>
+              <Route path="/payment" element={<PaymentMethodPage />}></Route>
               {/* Admin Routes */}
               <Route
                 path="/admin/dashboard"
@@ -254,12 +255,13 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
+
               <Route path="/" element={<HomePage />} />
             </Routes>
           </Container>
         </main>
         <footer>
-          <div className="text-center">Superfly Wallpapers © 2023</div>
+          <div className="footer text-center">Superfly Wallpapers © 2023</div>
         </footer>
       </div>
     </BrowserRouter>

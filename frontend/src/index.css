@@ -36,7 +36,8 @@ h1 {
 }
 
 .btn-primary,
-.btn-outline-primary, .nav-bar-toggle-menu {
+.btn-outline-primary,
+.nav-bar-toggle-menu {
   border: none;
   background-color: #542d8e;
   color: #ffffff;
@@ -44,6 +45,28 @@ h1 {
 .btn-primary:hover {
   background-color: limegreen;
   outline: none;
+  box-shadow: none;
+}
+
+.purple-text,
+#basic-nav-dropdown,
+#admin-nav-dropdown {
+  color: #542d8e;
+}
+.purple-text:hover,
+#basic-nav-dropdown:hover,
+#admin-nav-dropdown:hover {
+  color: limegreen;
+}
+.purple-text:focus,
+#basic-nav-dropdown:focus,
+#admin-nav-dropdown:focus {
+  color: #542d8e;
+}
+
+.navbar-toggler {
+  background-color: #542d8e;
+  outline: White 3px solid;
   box-shadow: none;
 }
 
@@ -114,17 +137,22 @@ h1 {
 }
 
 /* side bar */
-
+.nav-link {
+  color: #542d8e;
+  font-weight: bold;
+}
 .navbar-style {
   font-weight: bold;
 }
 .side-navbar {
   width: 240px;
-  height: 100%;
-  position: absolute;
+  height: 100vh;
+  position: fixed;
   left: -300px;
-  background-color: #100901;
+  background-color: White;
   transition: 0.5s;
+  border: solid #542d8e 3px;
+  border-top-right-radius: 15px;
 }
 .site-container {
   transition: 0.4s;
@@ -143,4 +171,29 @@ h1 {
 
 .text-bold {
   font-weight: bold;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  height: 80px;
+  background-color: #542d8e;
+}
+.cart-link {
+  display: flex;
+  align-items: center;
+}
+
+.custom-badge-circle {
+  border-radius: 50%; /* Make it a circle */
+  width: 24px; /* Adjust the width and height to control the badge size */
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #542d8e; /* Add your preferred background color */
+  color: white;
+  font-size: 15px; /* Adjust the font size as needed */
 }
