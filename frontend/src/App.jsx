@@ -32,6 +32,7 @@ import DesignEditPage from './pages/DesignEditPage';
 import OrderListPage from './pages/OrderListPage';
 import UserListPage from './pages/UserListPage';
 import UserEditPage from './pages/UserEditPage';
+import QuoteCalculatorPage from './pages/QuoteCalculatorPage';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -186,6 +187,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route path="/quote-calulator" element={<QuoteCalculatorPage />}></Route>
               <Route path="/placeorder" element={<PlaceOrderPage />} />
               <Route
                 path="/order/:id"
