@@ -71,7 +71,43 @@ designRouter.delete(
   })
 );
 
-const PAGE_SIZE = 3;
+designRouter.post(
+  '/:id/reviews',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const designId = req.params.id;
+    const design = await Design.findById(designId);
+    if (design) {
+      if (design.reviews.find((x) => x.name === req.user.name)) {
+        return res
+          .status(400)
+          .send({ message: 'You already submitted a review!' });
+      }
+      const reviews = {
+        name: req.user.name,
+        rating: Number(req.body.rating),
+        comment: req.body.comment,
+      };
+      design.reviews.push(reviews);
+
+      design.numReviews = design.reviews.length;
+      design.rating =
+        design.reviews.reduce((a, c) => c.rating + a, 0) /
+        design.reviews.length;
+      const updatedDesign = await design.save();
+      res.status(201).send({
+        message: 'Review Created',
+        review: updatedDesign.reviews[updatedDesign.reviews.length - 1],
+        numReviews: design.numReviews,
+        rating: design.rating,
+      });
+    } else {
+      res.status(404).send({ message: 'Design Not Found' });
+    }
+  })
+);
+
+const PAGE_SIZE = 6;
 
 designRouter.get(
   '/admin',
