@@ -34,6 +34,12 @@ h1 {
   font-weight: bold;
   text-decoration: none;
 }
+h3 {
+  font-size: 1.2rem;
+  color: #542d8e;
+  font-weight: bold;
+  text-decoration: none;
+}
 
 .btn-primary,
 .btn-outline-primary,
@@ -64,6 +70,11 @@ h1 {
   color: #542d8e;
 }
 
+.navbar-toggler:hover {
+  background-color: limegreen;
+  outline: White 3px solid;
+  box-shadow: none;
+}
 .navbar-toggler {
   background-color: #542d8e;
   outline: White 3px solid;
