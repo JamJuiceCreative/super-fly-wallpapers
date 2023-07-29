@@ -33,10 +33,11 @@ import OrderListPage from './pages/OrderListPage';
 import UserListPage from './pages/UserListPage';
 import UserEditPage from './pages/UserEditPage';
 import QuoteCalculatorPage from './pages/QuoteCalculatorPage';
+import QuoteListPage from './pages/QuoteListPage';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart, userInfo } = state;
+  const { fullBox, cart, userInfo } = state;
 
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
@@ -65,13 +66,17 @@ function App() {
       <div
         className={
           sidebarIsOpen
-            ? 'd-flex flex-column site-container active-cont'
-            : 'd-flex flex-column site-container'
+            ? fullBox
+              ? 'site-container active-cont d-flex flex-column full-box'
+              : 'site-container active-cont d-flex flex-column'
+            : fullBox
+            ? 'site-container d-flex flex-column full-box'
+            : 'site-container d-flex flex-column'
         }
       >
-        <Toaster position="top-center" limit={1} />
-        <header className="App-header">
-          <Navbar bg="dark" variant="dark" expand="lg">
+        <Toaster position="bottom-center" limit={1} />
+        <header>
+          <Navbar bg="white" variant="dark" expand="lg">
             <Container>
               <Button
                 variant="primary"
@@ -79,6 +84,7 @@ function App() {
               >
                 <i className="fas fa-bars"></i>
               </Button>
+
               <LinkContainer to="/">
                 <Navbar.Brand>
                   <img
@@ -88,18 +94,18 @@ function App() {
                   />
                 </Navbar.Brand>
               </LinkContainer>
-              <Navbar.Toggle
-                aria-controls="basic-navbar-nav"
-                className="
-              nav-bar-toggle-menu"
-              />
-              <Navbar.Collapse id="basic-nav-bar-nav">
-                <SearchBox />
-                <Nav className="me-auto w-100 justify-content-end">
-                  <Link to="/cart" className="nav-link">
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <SearchBox className="mt-3" />
+                <Nav className="me-auto  w-100  justify-content-end">
+                  <Link to="/cart" className="nav-link purple-text cart-link">
                     Cart
                     {cart.cartItems.length > 0 && (
-                      <Badge pill bg="danger">
+                      <Badge
+                        pill
+                        bg="danger"
+                        className="ml-1 custom-badge-circle"
+                      >
                         {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                       </Badge>
                     )}
@@ -115,7 +121,7 @@ function App() {
                       <NavDropdown.Divider />
                       <Link
                         className="dropdown-item"
-                        to="/signout"
+                        to="#signout"
                         onClick={signoutHandler}
                       >
                         Sign Out
@@ -156,12 +162,14 @@ function App() {
         >
           <Nav className="flex-column text-white w-100 p-2">
             <Nav.Item>
-              <strong>Categories</strong>
+              <h3>
+                <strong>Categories</strong>
+              </h3>
             </Nav.Item>
             {categories.map((category) => (
               <Nav.Item key={category}>
                 <LinkContainer
-                  to={`/search/category=${category}`}
+                  to={{ pathname: '/search', search: `category=${category}` }}
                   onClick={() => setSidebarIsOpen(false)}
                 >
                   <Nav.Link>{category}</Nav.Link>
@@ -187,7 +195,10 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route path="/quote-calulator" element={<QuoteCalculatorPage />}></Route>
+              <Route
+                path="/quote-calculator/:slug"
+                element={<QuoteCalculatorPage />}
+              ></Route>
               <Route path="/placeorder" element={<PlaceOrderPage />} />
               <Route
                 path="/order/:id"
@@ -196,17 +207,26 @@ function App() {
                     <OrderPage />
                   </ProtectedRoute>
                 }
-              />
+              ></Route>
               <Route
                 path="/orderhistory"
                 element={
                   <ProtectedRoute>
-                    <OrderHistoryPage />{' '}
+                    <OrderHistoryPage />
                   </ProtectedRoute>
                 }
-              />
-              <Route path="/shipping" element={<ShippingAddressPage />} />
-              <Route path="/payment" element={<PaymentMethodPage />} />
+              ></Route>
+                            <Route
+                path="/quotes"
+                element={
+                  <ProtectedRoute>
+                    <QuoteListPage />
+                  </ProtectedRoute>
+                }
+              ></Route>
+              
+              <Route path="/shipping" element={<ShippingAddressPage />}></Route>
+              <Route path="/payment" element={<PaymentMethodPage />}></Route>
               {/* Admin Routes */}
               <Route
                 path="/admin/dashboard"
@@ -216,6 +236,7 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
+
               <Route
                 path="/admin/orders"
                 element={
@@ -256,12 +277,13 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
+
               <Route path="/" element={<HomePage />} />
             </Routes>
           </Container>
         </main>
         <footer>
-          <div className="text-center">Superfly Wallpapers © 2023</div>
+          <div className="footer text-center">Superfly Wallpapers © 2023</div>
         </footer>
       </div>
     </BrowserRouter>

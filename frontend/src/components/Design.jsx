@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -12,10 +12,16 @@ function Design(props) {
   const {
     cart: { cartItems },
   } = state;
+  const [quoteCalculated, setQuoteCalculated] = useState(false)
   const addToCartHandler = async (item) => {
     const existItem = cartItems.find((x) => x._id === design._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/designs/${item._id}`);
+    if (!quoteCalculated){
+            // Show a message or alert to inform the user to get a quote first
+            window.alert('Please calculate the quote first before adding to cart.');
+            return;
+    }
     if (data.printToOrder === false) {
       window.alert('Sorry. Design is currently not available for print');
       return;
@@ -32,7 +38,7 @@ function Design(props) {
       </Link>
       <Card.Body>
         <Link to={`/design/${design.slug}`}>
-          <Card.Title className="design-title ">{design.name} </Card.Title>
+          <Card.Title className="design-title ">{design.name}</Card.Title>
         </Link>
         <Rating rating={design.rating} numReviews={design.numReviews} />
         <Card.Text>
@@ -42,8 +48,12 @@ function Design(props) {
           <Button variant="light" disabled>
             Not Available
           </Button>
-        ) : (
+        ) : quoteCalculated ? (
           <Button onClick={() => addToCartHandler(design)}>Add to cart</Button>
+        ) : (
+          <Link to={`/quote-calculator/${design.slug}`}> {/* Redirect to the quote calculator page */}
+            <Button>Get a Quote</Button>
+          </Link>
         )}
       </Card.Body>
     </Card>
