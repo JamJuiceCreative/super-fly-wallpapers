@@ -115,6 +115,9 @@ function App() {
                       <LinkContainer to="/profile">
                         <NavDropdown.Item>User Profile</NavDropdown.Item>
                       </LinkContainer>
+                      <LinkContainer to="/quotes">
+                        <NavDropdown.Item>Quote History</NavDropdown.Item>
+                      </LinkContainer>
                       <LinkContainer to="/orderhistory">
                         <NavDropdown.Item>Order History</NavDropdown.Item>
                       </LinkContainer>

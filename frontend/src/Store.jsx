@@ -17,6 +17,9 @@ const initialState = {
     cartItems: localStorage.getItem('cartItems')
       ? JSON.parse(localStorage.getItem('cartItems'))
       : [],
+    quoteItems: localStorage.getItem('quoteItems')
+      ? JSON.parse(localStorage.getItem('quoteItems'))
+      : [],
   },
 };
 function reducer(state, action) {
@@ -43,6 +46,57 @@ function reducer(state, action) {
     }
     case 'CART_CLEAR':
       return { ...state, cart: { ...state.cart, cartItems: [] } };
+
+      // experimental quote reducer actions;
+      function reducer(state, action) {
+        switch (action.type) {
+          // ... existing cases ...
+
+          case 'QUOTE_ADD_ITEM':
+            // add to quote
+            const newQuoteItem = action.payload;
+            const existingQuoteItem = state.quote.quoteItems.find(
+              (item) => item._id === newQuoteItem._id
+            );
+            const updatedQuoteItems = existingQuoteItem
+              ? state.quote.quoteItems.map((item) =>
+                  item._id === existingQuoteItem._id ? newQuoteItem : item
+                )
+              : [...state.quote.quoteItems, newQuoteItem];
+            localStorage.setItem(
+              'quoteItems',
+              JSON.stringify(updatedQuoteItems)
+            );
+            return {
+              ...state,
+              quote: { ...state.quote, quoteItems: updatedQuoteItems },
+            };
+
+          case 'QUOTE_REMOVE_ITEM':
+            // remove from quote
+            const filteredQuoteItems = state.quote.quoteItems.filter(
+              (item) => item._id !== action.payload._id
+            );
+            localStorage.setItem(
+              'quoteItems',
+              JSON.stringify(filteredQuoteItems)
+            );
+            return {
+              ...state,
+              quote: { ...state.quote, quoteItems: filteredQuoteItems },
+            };
+
+          case 'QUOTE_CLEAR':
+            // clear quote
+            localStorage.removeItem('quoteItems');
+            return { ...state, quote: { ...state.quote, quoteItems: [] } };
+
+          // ... other cases ...
+        }
+      }
+
+    // end of  experimental quote reducer actions;
+
     case 'USER_SIGNIN':
       return { ...state, userInfo: action.payload };
     case 'USER_SIGNOUT':

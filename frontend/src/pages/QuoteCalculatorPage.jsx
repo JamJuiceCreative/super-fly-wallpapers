@@ -88,27 +88,25 @@ const QuoteCalculatorPage = () => {
       setQuote(quote);
       setQuoteCalculated(true);
 
-      // Create an object with all the quote data
-      const quoteData = {
-        quoteItems: [
-          {
-            slug: design.slug,
-            name: design.name,
-            image: design.image,
-            price: design.price,
-            design: design._id,
-          },
-        ],
-        squareMeters: calculateSquareMeters(),
-        quotePrice: quote,
-      };
+       const itemToAdd = {
+      ...design,
+      squareMeters: calculateSquareMeters(),
+      quotePrice: quote,
+    };
 
-      // Store the quote data in local storage
-      localStorage.setItem('quoteData', JSON.stringify(quoteData));
-    } catch (error) {
-      toast.error('Failed to calculate the quote. Please try again.');
-    }
-  };
+    // Update the quoteItems in local storage
+    const existingQuoteItems = localStorage.getItem('quoteItems')
+      ? JSON.parse(localStorage.getItem('quoteItems'))
+      : [];
+    const updatedQuoteItems = [
+      ...existingQuoteItems.filter((item) => item._id !== design._id),
+      itemToAdd,
+    ];
+    localStorage.setItem('quoteItems', JSON.stringify(updatedQuoteItems));
+  } catch (error) {
+    toast.error('Failed to calculate the quote. Please try again.');
+  }
+};
   const saveQuoteHandler = async () => {
     if (!userInfo || !userInfo.token) {
       // Redirect to login or show an error message
