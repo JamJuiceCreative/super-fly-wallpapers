@@ -1,5 +1,5 @@
 import { createContext, useReducer } from 'react';
-
+export const CART_UPDATE_ITEM_QUANTITY = 'CART_UPDATE_ITEM_QUANTITY';
 export const Store = createContext();
 
 const initialState = {
@@ -44,58 +44,61 @@ function reducer(state, action) {
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
+    case 'CART_UPDATE_ITEM_QUANTITY': {
+      const { itemId, quantity } = action.payload;
+      const cartItems = state.cart.cartItems.map((item) =>
+        item._id === itemId ? { ...item, quantity } : item
+      );
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      return { ...state, cart: { ...state.cart, cartItems } };
+    }
+
+    case 'CART_UPDATE_ITEMS':
+      return { ...state, cart: { ...state.cart, cartItems: action.payload } };
     case 'CART_CLEAR':
       return { ...state, cart: { ...state.cart, cartItems: [] } };
 
-      // experimental quote reducer actions;
-      function reducer(state, action) {
-        switch (action.type) {
-          // ... existing cases ...
+    case 'QUOTE_ADD_ITEM':
+      // add to quoteItems
+      const newQuoteItem = action.payload;
+      const existQuoteItem = state.cart.quoteItems.find(
+        (item) => item._id === newQuoteItem._id
+      );
+      const quoteItems = existQuoteItem
+        ? state.cart.quoteItems.map((item) =>
+            item._id === existQuoteItem._id ? newQuoteItem : item
+          )
+        : [...state.cart.quoteItems, newQuoteItem];
+      localStorage.setItem('quoteItems', JSON.stringify(quoteItems));
+      return { ...state, cart: { ...state.cart, quoteItems } };
 
-          case 'QUOTE_ADD_ITEM':
-            // add to quote
-            const newQuoteItem = action.payload;
-            const existingQuoteItem = state.quote.quoteItems.find(
-              (item) => item._id === newQuoteItem._id
-            );
-            const updatedQuoteItems = existingQuoteItem
-              ? state.quote.quoteItems.map((item) =>
-                  item._id === existingQuoteItem._id ? newQuoteItem : item
-                )
-              : [...state.quote.quoteItems, newQuoteItem];
-            localStorage.setItem(
-              'quoteItems',
-              JSON.stringify(updatedQuoteItems)
-            );
-            return {
-              ...state,
-              quote: { ...state.quote, quoteItems: updatedQuoteItems },
-            };
 
-          case 'QUOTE_REMOVE_ITEM':
-            // remove from quote
-            const filteredQuoteItems = state.quote.quoteItems.filter(
-              (item) => item._id !== action.payload._id
-            );
-            localStorage.setItem(
-              'quoteItems',
-              JSON.stringify(filteredQuoteItems)
-            );
-            return {
-              ...state,
-              quote: { ...state.quote, quoteItems: filteredQuoteItems },
-            };
 
-          case 'QUOTE_CLEAR':
-            // clear quote
-            localStorage.removeItem('quoteItems');
-            return { ...state, quote: { ...state.quote, quoteItems: [] } };
 
-          // ... other cases ...
-        }
-      }
+      case 'CART_ADD_QUOTE':
+  // add a quote to cart's quoteItems
+  console.log('CART_ADD_QUOTE action triggered');
+  console.log('Payload:', action.payload);
+  const newQuote = action.payload;
+  const existQuote = state.cart.cartItems.find((quote) => quote._id === newQuote._id);
+  const updatedCartItems = existQuote
+    ? state.cart.cartItems.map((quote) => (quote._id === existQuote._id ? newQuote : quote))
+    : [...state.cart.cartItems, newQuote];
+  localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+  return { ...state, cart: { ...state.cart, cartItems: updatedCartItems } };
 
-    // end of  experimental quote reducer actions;
+
+
+
+    case 'QUOTE_REMOVE_ITEM': {
+      const quoteItems = state.cart.quoteItems.filter(
+        (item) => item._id !== action.payload._id
+      );
+      localStorage.setItem('quoteItems', JSON.stringify(quoteItems));
+      return { ...state, cart: { ...state.cart, quoteItems } };
+    }
+    case 'QUOTE_CLEAR':
+      return { ...state, cart: { ...state.cart, quoteItems: [] } };
 
     case 'USER_SIGNIN':
       return { ...state, userInfo: action.payload };
@@ -105,6 +108,7 @@ function reducer(state, action) {
         userInfo: null,
         cart: {
           cartItems: [],
+          quoteItems: [], // Add this to clear quoteItems on signout
           shippingAddress: {},
           paymentMethod: '',
         },

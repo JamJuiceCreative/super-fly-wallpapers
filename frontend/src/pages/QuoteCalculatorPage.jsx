@@ -14,6 +14,8 @@ import Rating from '../components/Rating';
 import { Store } from '../Store';
 import { getError } from '../utils';
 
+
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SAVE_QUOTE_REQUEST':
@@ -38,7 +40,8 @@ const QuoteCalculatorPage = () => {
   const [height, setHeight] = useState('');
   const [quote, setQuote] = useState('');
   const [quoteCalculated, setQuoteCalculated] = useState(false);
-
+  
+  
   const [{ loading }, dispatch] = useReducer(reducer, {
     loading: false,
   });
@@ -61,6 +64,8 @@ const QuoteCalculatorPage = () => {
     return (length * height).toFixed(2);
   };
 
+
+
   const calculateQuote = () => {
     const area = length * height;
     const quote = area * squareMeterPrice;
@@ -77,6 +82,7 @@ const QuoteCalculatorPage = () => {
     setQuoteCalculated(false);
   };
 
+
   const calculateQuoteHandler = async () => {
     if (!length || !height) {
       toast.error('Please enter both Length and Height values.');
@@ -88,25 +94,27 @@ const QuoteCalculatorPage = () => {
       setQuote(quote);
       setQuoteCalculated(true);
 
-       const itemToAdd = {
-      ...design,
-      squareMeters: calculateSquareMeters(),
-      quotePrice: quote,
-    };
+      // Remove existing quote data from local storage
+      localStorage.removeItem('quoteItems');
 
-    // Update the quoteItems in local storage
-    const existingQuoteItems = localStorage.getItem('quoteItems')
-      ? JSON.parse(localStorage.getItem('quoteItems'))
-      : [];
-    const updatedQuoteItems = [
-      ...existingQuoteItems.filter((item) => item._id !== design._id),
-      itemToAdd,
-    ];
-    localStorage.setItem('quoteItems', JSON.stringify(updatedQuoteItems));
-  } catch (error) {
-    toast.error('Failed to calculate the quote. Please try again.');
-  }
-};
+      // Create an object with all the quote data
+      const quoteItems = [
+        {
+          ...design, // Use the spread operator to include all properties
+          _id: design._id, // Include the _id field separately
+          design: design._id, // Include the _id field for the design
+          squareMeters: calculateSquareMeters(), // Include squareMeters field
+          quotePrice: quote, // Include quotePrice field
+        },
+      ];
+
+      // Store the quote items in local storage
+      localStorage.setItem('quoteItems', JSON.stringify(quoteItems));
+    } catch (error) {
+      toast.error('Failed to calculate the quote. Please try again.');
+    }
+  };
+
   const saveQuoteHandler = async () => {
     if (!userInfo || !userInfo.token) {
       // Redirect to login or show an error message
@@ -115,9 +123,12 @@ const QuoteCalculatorPage = () => {
     try {
       dispatch({ type: 'CREATE_QUOTE_REQUEST' });
 
-      const { data } = await axios.post(
-        '/api/quotes',
+      // Remove existing quote data from local storage
+      localStorage.removeItem('quoteItems');
 
+      // Save the quote data to the backend
+      await axios.post(
+        '/api/quotes',
         {
           quoteItems: [
             {
@@ -152,25 +163,46 @@ const QuoteCalculatorPage = () => {
       window.alert('Please get a quote first before adding to cart');
       return;
     }
-    const existItem = cart.cartItems.find((x) => x._id === design._id);
-    const quantity = existItem ? existItem.quantity + 1 : 1;
-    const { data } = await axios.get(`/api/designs/${design._id}`);
-    if (data.printToOrder === false) {
-      window.alert('Sorry. Design is currently not available for print');
-      return;
+  
+    const existingItem = cart.cartItems.find(
+      (item) =>
+        item._id === design._id &&
+        item.squareMeters === calculateSquareMeters() &&
+        item.quotePrice === quote
+    );
+  
+    if (existingItem) {
+      // Item already exists with the same dimensions, increase quantity by 1
+      const newCartItems = cart.cartItems.map((item) =>
+        item._id === existingItem._id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+  
+      // Dispatch the action to update the quantity of the existing item
+      ctxDispatch({ type: 'CART_UPDATE_ITEMS', payload: newCartItems });
+    } else {
+      // Item with different dimensions, add as a new item with the original design ID
+      const itemToAdd = {
+        ...design,
+        quantity: 1,
+        squareMeters: calculateSquareMeters(),
+        quotePrice: quote,
+      };
+  
+      // Dispatch the action to add the new item to the cart
+      ctxDispatch({ type: 'CART_ADD_ITEM', payload: itemToAdd });
     }
-    const itemToAdd = {
-      ...design,
-      quantity,
-      squareMeters: calculateSquareMeters(),
-      quotePrice: quote,
-    };
-    ctxDispatch({
-      type: 'CART_ADD_ITEM',
-      payload: itemToAdd,
-    });
+  
     navigate('/cart');
   };
+  
+  
+
+  
+  
+  
+
 
   return (
     <div>

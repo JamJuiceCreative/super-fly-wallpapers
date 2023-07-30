@@ -25,7 +25,6 @@ quoteRouter.post(
   })
 );
 
-// Route to fetch all quotes
 quoteRouter.get(
   '/',
   isAuth,
@@ -34,6 +33,44 @@ quoteRouter.get(
       'quoteItems.design'
     );
     res.send(quotes);
+  })
+);
+
+// designRouter.get('/', async (req, res) => {
+//   const designs = await Design.find();
+//   res.send(designs);
+// });
+
+
+
+// Route to fetch Quote by ID
+quoteRouter.get(
+  '/:id',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const quote = await Quote.findById(req.params.id).populate('quoteItems.design');
+    if (quote) {
+      res.send(quote);
+    } else {
+      res.status(404).send({ message: 'Quote not found' });
+    }
+  })
+);
+
+quoteRouter.delete(
+  '/:id',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const quoteId = req.params.id;
+    const quote = await Quote.findById(quoteId);
+    
+    if (quote) {
+      // Delete the quote from the database
+      await quote.deleteOne();
+      res.send({ message: 'Quote deleted successfully' });
+    } else {
+      res.status(404).send({ message: 'Quote not found' });
+    }
   })
 );
 
