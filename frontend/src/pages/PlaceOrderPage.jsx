@@ -42,8 +42,48 @@ export default function PlaceOrderPage() {
   );
   cart.shippingPrice = cart.itemsPrice > 100 ? round2(0) : round2(10);
   cart.gstPrice = round2(0.1 * cart.itemsPrice);
-  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.gstPrice;
+  cart.totalPrice =
+    cart.cartItems.reduce(
+      (total, item) => total + item.quotePrice * item.quantity,
+      0
+    ) +
+    cart.shippingPrice +
+    cart.gstPrice;
 
+  // const placeOrderHandler = async () => {
+  //   try {
+  //     dispatch({ type: 'CREATE_REQUEST' });
+  //     const { data } = await Axios.post(
+  //       '/api/orders',
+  //       {
+  //         orderItems: cart.cartItems.map((item) => ({
+  //           ...item,
+  //           design: item.design._id, // Include the _id of the design
+  //           squareMeters: item.squareMeters, // Include squareMeters field
+  //           quotePrice: item.quotePrice, // Include quotePrice field
+  //         })),
+  //         shippingAddress: cart.shippingAddress,
+  //         paymentMethod: cart.paymentMethod,
+  //         itemsPrice: cart.itemsPrice,
+  //         shippingPrice: cart.shippingPrice,
+  //         gstPrice: cart.gstPrice,
+  //         totalPrice: cart.totalPrice,
+  //       },
+  //       {
+  //         headers: {
+  //           authorization: `Bearer ${userInfo.token}`,
+  //         },
+  //       }
+  //     );
+  //     ctxDispatch({ type: 'CART_CLEAR' });
+  //     dispatch({ type: 'CREATE_SUCCESS' });
+  //     localStorage.removeItem('cartItems');
+  //     navigate(`/order/${data.order._id}`);
+  //   } catch (err) {
+  //     dispatch({ type: 'CREATE_FAIL' });
+  //     toast.error(getError(err));
+  //   }
+  // };
   const placeOrderHandler = async () => {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
@@ -119,7 +159,7 @@ export default function PlaceOrderPage() {
                 {cart.cartItems.map((item) => (
                   <ListGroup.Item key={item._id}>
                     <Row className="align-items-center">
-                      <Col md={6}>
+                      <Col md={3}>
                         <img
                           src={item.image}
                           alt={item.name}
@@ -130,7 +170,14 @@ export default function PlaceOrderPage() {
                       <Col md={3}>
                         <span>QTY x {item.quantity}</span>
                       </Col>
-                      <Col md={3}>${item.price}</Col>
+                      <Col md={3}>
+                        {item.squareMeters} m<sup>2</sup>
+                      </Col>
+                      <Col md={3}>
+                        <span>
+                          ${(item.quotePrice * item.quantity).toFixed(2)}
+                        </span>
+                      </Col>
                     </Row>
                   </ListGroup.Item>
                 ))}
@@ -147,7 +194,12 @@ export default function PlaceOrderPage() {
                 <ListGroup.Item>
                   <Row>
                     <Col>Items</Col>
-                    <Col>${cart.itemsPrice.toFixed(2)}</Col>
+                    <Col>
+                      $
+                      {cart.cartItems
+                        .reduce((a, c) => a + c.quotePrice * c.quantity, 0)
+                        .toFixed(2)}
+                    </Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>

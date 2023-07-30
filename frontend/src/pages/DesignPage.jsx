@@ -70,9 +70,7 @@ function DesignPage() {
   const { cart, userInfo } = state;
   const addToCartHandler = async () => {
     if (!quoteCalculated || design.printToOrder === false) {
-      window.alert(
-        'Please get a quote first before adding to cart'
-      );
+      window.alert('Please get a quote first before adding to cart');
       return;
     }
     const existItem = cart.cartItems.find((x) => x._id === design._id);

@@ -29,7 +29,8 @@ const reducer = (state, action) => {
 
 const QuoteCalculatorPage = () => {
   const navigate = useNavigate();
-  const { state } = useContext(Store);
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart } = state;
   const { userInfo } = state;
   const { slug } = useParams();
   const [design, setDesign] = useState(null);
@@ -138,15 +139,41 @@ const QuoteCalculatorPage = () => {
           },
         }
       );
-      
+
       dispatch({ type: 'SAVE_QUOTE_SUCCESS' });
-      localStorage.removeItem('quoteItems');
+      localStorage.removeItem('quoteData');
       navigate('/quotes');
     } catch (err) {
       dispatch({ type: 'SAVE_QUOTE_FAIL' });
       toast.error(getError(err));
     }
   };
+
+  const addToCartHandler = async () => {
+    if (!quoteCalculated || design.printToOrder === false) {
+      window.alert('Please get a quote first before adding to cart');
+      return;
+    }
+    const existItem = cart.cartItems.find((x) => x._id === design._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/designs/${design._id}`);
+    if (data.printToOrder === false) {
+      window.alert('Sorry. Design is currently not available for print');
+      return;
+    }
+    const itemToAdd = {
+      ...design,
+      quantity,
+      squareMeters: calculateSquareMeters(),
+      quotePrice: quote,
+    };
+    ctxDispatch({
+      type: 'CART_ADD_ITEM',
+      payload: itemToAdd,
+    });
+    navigate('/cart');
+  };
+
   return (
     <div>
       <Container className="mt-5">
@@ -185,7 +212,12 @@ const QuoteCalculatorPage = () => {
                       {quoteCalculated ? (
                         <div>
                           <div>Quote: ${quote}</div>
-                          <Button>Add to Cart</Button>
+                          <Button
+                            onClick={addToCartHandler}
+                            disabled={!quoteCalculated}
+                          >
+                            Add to Cart
+                          </Button>
                           <Button onClick={saveQuoteHandler}>Save Quote</Button>
                         </div>
                       ) : (
