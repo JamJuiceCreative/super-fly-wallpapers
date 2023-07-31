@@ -159,7 +159,7 @@ export default function SearchPage() {
               ))}
             </ul>
           </div>
-          <div>
+          {/* <div>
             <h3>Price</h3>
             <ul>
               <li>
@@ -181,7 +181,7 @@ export default function SearchPage() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
           <div>
             <h3>Avg. Customer Review</h3>
             <ul>
@@ -243,8 +243,8 @@ export default function SearchPage() {
                     }}
                   >
                     <option value="newest">Newest Arrivals</option>
-                    <option value="lowest">Price: Low to High</option>
-                    <option value="highest">Price: High to Low</option>
+                    {/* <option value="lowest">Price: Low to High</option>
+                    <option value="highest">Price: High to Low</option> */}
                     <option value="toprated">Avg. Customer Reviews</option>
                   </select>
                 </Col>

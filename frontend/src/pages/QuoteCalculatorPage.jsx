@@ -235,12 +235,12 @@ const QuoteCalculatorPage = () => {
                     </Form.Group>
                   </Form>
                   {length && height && (
-                    <div>
+                    <div className="d-flex justify-content-between align-items-center">
                       <span>
                         Calculated Square Meters: {calculateSquareMeters()}
                       </span>
                       {quoteCalculated ? (
-                        <div>
+                        <div className="d-flex gap-2 align-items-center">
                           <div>Quote: ${quote}</div>
                           <Button
                             onClick={addToCartHandler}
@@ -251,7 +251,7 @@ const QuoteCalculatorPage = () => {
                           <Button onClick={saveQuoteHandler}>Save Quote</Button>
                         </div>
                       ) : (
-                        <Button onClick={calculateQuoteHandler}>
+                        <Button className= "m-4"onClick={calculateQuoteHandler}>
                           Calculate Quote
                         </Button>
                       )}
@@ -262,15 +262,15 @@ const QuoteCalculatorPage = () => {
             )}
             <Col md={6}>
               <Row>
-                <Col md={6}>
+                <Col md={6} style={{ minWidth: '320px' }}>
                   <img
-                    className="img-medium"
+                    className="img-medium mb-2"
                     src={design?.image}
                     alt={design?.name}
                   />
                 </Col>
                 <Col md={6}>
-                  <ListGroup>
+                  <ListGroup style={{ minWidth: '300px' }}>
                     <ListGroup.Item>
                       {design ? (
                         <>

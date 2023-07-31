@@ -25,8 +25,8 @@ const data = {
       price: 85,
       printToOrder: true,
       style: 'computer generated',
-      rating: 4.5,
-      numReviews: 10,
+      rating: 0,
+      numReviews: 0,
       description:
         'cartoon, animation style pirate adventure on the seven seas.',
     },
@@ -39,8 +39,8 @@ const data = {
       price: 85,
       printToOrder: false,
       style: 'computer generated',
-      rating: 5,
-      numReviews: 15,
+      rating: 0,
+      numReviews: 0,
       description: '3D video game style monkey kong village',
     },
     {
@@ -52,8 +52,8 @@ const data = {
       price: 85,
       printToOrder: true,
       style: 'water colour',
-      rating: 3,
-      numReviews: 8,
+      rating: 0,
+      numReviews: 0,
       description:
         'water colour style mario themed characters wallpaper pattern',
     },
@@ -66,8 +66,8 @@ const data = {
       price: 85,
       printToOrder: true,
       style: 'comic book art ',
-      rating: 5,
-      numReviews: 13,
+      rating: 0,
+      numReviews: 0,
       description:
         'comic book style heroes in a city on a dark and rainy night.',
     },

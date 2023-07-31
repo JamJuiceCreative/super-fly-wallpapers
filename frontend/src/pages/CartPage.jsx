@@ -55,7 +55,7 @@ export default function CartPage() {
               {cartItems.map((item) => (
                 <ListGroup.Item key={item._id}>
                   <Row className="align-items-center">
-                    <Col md={4}>
+                    <Col md={2}>
                       <img
                         src={item.image}
                         alt={item.name}
@@ -67,7 +67,7 @@ export default function CartPage() {
                       <div
                         className="d-flex align-items-center"
                         style={{ minWidth: '120px', whiteSpace: 'nowrap' }}
-                      >
+                      >QTY
                         <Button
                           variant="light"
                           onClick={() =>
@@ -75,7 +75,7 @@ export default function CartPage() {
                           }
                           disabled={item.quantity === 1}
                         >
-                          QTY <i className="fas fa-minus-circle"></i>
+                           <i className="fas fa-minus-circle"></i>
                         </Button>
                         <span className="mx-2">{item.quantity}</span>
                         <Button
@@ -95,7 +95,7 @@ export default function CartPage() {
                         {item.squareMeters} m<sup>2</sup>
                       </div>
                     </Col>
-                    <Col md={3}>${item.quotePrice}</Col>
+                    <Col md={2}>${item.quotePrice*item.quantity}</Col>
                     <Col md={2}>
                       <Button
                         onClick={() => removeItemHandler(item)}

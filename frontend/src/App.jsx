@@ -186,6 +186,7 @@ function App() {
             <Routes>
               <Route path="/design/:slug" element={<DesignPage />} />
               <Route path="/cart" element={<CartPage />} />
+            
               <Route path="/search" element={<SearchPage />} />
               <Route path="/signin" element={<SigninPage />} />
               <Route path="/signup" element={<SignupPage />} />
