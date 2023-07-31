@@ -44,7 +44,7 @@ h3 {
   color: white;
 }
 .btn-primary {
-  min-width: 10px;
+  min-width: 120px;
 }
 .btn-hamburger:hover {
   background: limegreen;
@@ -242,3 +242,8 @@ h3 {
 }
 span { display: inline-block}
 
+.heart-icon {
+  min-width: 40px;
+  width: 20%;
+  cursor: pointer;
+}

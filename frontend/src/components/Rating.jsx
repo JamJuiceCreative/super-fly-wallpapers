@@ -6,12 +6,8 @@ import FlyIconEmpty from '../assets/fly-icon-empty.svg'
 function Rating(props) {
   const { rating, numReviews, caption } = props;
 
-  const getFlyIcon = (filled)=> {
-    return filled ? <FlyIcon /> : <FlyIconEmpty />;
-  }
-  const getFlyIconHalf = () => {
-    return <FlyIconHalf />
-  }
+  
+  
   return (
     <div className="rating d-flex">
       <span>

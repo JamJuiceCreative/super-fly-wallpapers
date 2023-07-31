@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import Rating from './Rating';
 import axios from 'axios';
 import { Store } from '../Store';
+import HeartFull from '../assets/heart-full.svg';
+import HeartEmpty from '../assets/heart-empty.svg';
 
 function Design(props) {
   const { design } = props;
@@ -12,15 +14,22 @@ function Design(props) {
   const {
     cart: { cartItems },
   } = state;
-  const [quoteCalculated, setQuoteCalculated] = useState(false)
+  const [quoteCalculated, setQuoteCalculated] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(design.favorite || true);
+
+  const toggleFavoriteHandler = () => {
+    // Call the toggleFavoriteHandler from the Favorite component
+    Favorite.toggleFavoriteHandler(design);
+  };
+
   const addToCartHandler = async (item) => {
     const existItem = cartItems.find((x) => x._id === design._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/designs/${item._id}`);
-    if (!quoteCalculated){
-            // Show a message or alert to inform the user to get a quote first
-            window.alert('Please calculate the quote first before adding to cart.');
-            return;
+    if (!quoteCalculated) {
+      // Show a message or alert to inform the user to get a quote first
+      window.alert('Please calculate the quote first before adding to cart.');
+      return;
     }
     if (data.printToOrder === false) {
       window.alert('Sorry. Design is currently not available for print');
@@ -44,17 +53,29 @@ function Design(props) {
         <Card.Text>
           <strong>From ${design.price} </strong>
         </Card.Text>
-        {design.printToOrder === false ? (
-          <Button variant="light" disabled>
-            Not Available
-          </Button>
-        ) : quoteCalculated ? (
-          <Button onClick={() => addToCartHandler(design)}>Add to cart</Button>
-        ) : (
-          <Link to={`/quote-calculator/${design.slug}`}> {/* Redirect to the quote calculator page */}
-            <Button>Get a Quote</Button>
-          </Link>
-        )}
+        <div className="quote-btn-container d-flex justify-content-between">
+          {design.printToOrder === false ? (
+            <Button variant="light" disabled>
+              Not Available
+            </Button>
+          ) : quoteCalculated ? (
+            <Button onClick={() => addToCartHandler(design)}>
+              Add to cart
+            </Button>
+          ) : (
+            <Link to={`/quote-calculator/${design.slug}`}>
+              {' '}
+              {/* Redirect to the quote calculator page */}
+              <Button>Get a Quote</Button>
+            </Link>
+          )}{' '}
+          <img
+            className="heart-icon"
+            src={isFavorited ? HeartFull : HeartEmpty}
+            alt={isFavorited ? 'Favorited' : 'Not favorited'}
+            onClick={() => toggleFavoriteHandler(design)} // Capture the 'design' object and pass it to the handler
+          />
+        </div>
       </Card.Body>
     </Card>
   );

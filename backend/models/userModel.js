@@ -7,6 +7,8 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     resetToken: { type: String },
     isAdmin: { type: Boolean, default: false, required: true },
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Design' }],
+    // favorites: [{ type: String }],
   },
   {
     timestamps: true,

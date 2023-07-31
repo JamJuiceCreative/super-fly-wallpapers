@@ -9,6 +9,7 @@ import userRouter from './routes/userRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 import uploadRouter from './routes/uploadRoutes.js';
 import quoteRouter from './routes/quoteRoutes.js';
+import favoriteRouter from './routes/favoriteRoutes.js';
 
 dotenv.config();
 
@@ -52,6 +53,7 @@ app.use('/api/designs', designRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/quotes', quoteRouter);
+app.use('/api/favorites', favoriteRouter);
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, '/frontend/dist')));
