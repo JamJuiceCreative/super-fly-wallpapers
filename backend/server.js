@@ -8,6 +8,7 @@ import designRouter from './routes/designRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 import uploadRouter from './routes/uploadRoutes.js';
+import quoteRouter from './routes/quoteRoutes.js';
 
 dotenv.config();
 
@@ -50,6 +51,7 @@ app.use('/api/seed', seedRouter);
 app.use('/api/designs', designRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
+app.use('/api/quotes', quoteRouter);
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, '/frontend/dist')));

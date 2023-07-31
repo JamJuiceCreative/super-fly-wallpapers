@@ -27,5 +27,5 @@ const designSchema = new mongoose.Schema(
   }
 );
 
-const Design = mongoose.model('Designs', designSchema);
+const Design = mongoose.model('Design', designSchema);
 export default Design;

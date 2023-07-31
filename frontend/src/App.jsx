@@ -32,6 +32,9 @@ import DesignEditPage from './pages/DesignEditPage';
 import OrderListPage from './pages/OrderListPage';
 import UserListPage from './pages/UserListPage';
 import UserEditPage from './pages/UserEditPage';
+import QuoteCalculatorPage from './pages/QuoteCalculatorPage';
+import QuoteListPage from './pages/QuoteListPage';
+
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -93,12 +96,18 @@ function App() {
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
-                <SearchBox className="mt-3"/>
+
+                <SearchBox className="mt-3" />
                 <Nav className="me-auto  w-100  justify-content-end">
                   <Link to="/cart" className="nav-link purple-text cart-link">
-                    Cart 
+                    Cart
                     {cart.cartItems.length > 0 && (
-                      <Badge pill bg="danger" className="ml-1 custom-badge-circle">
+                      <Badge
+                        pill
+                        bg="danger"
+                        className="ml-1 custom-badge-circle"
+                      >
+
                         {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                       </Badge>
                     )}
@@ -107,6 +116,9 @@ function App() {
                     <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                       <LinkContainer to="/profile">
                         <NavDropdown.Item>User Profile</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/quotes">
+                        <NavDropdown.Item>Quote History</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/orderhistory">
                         <NavDropdown.Item>Order History</NavDropdown.Item>
@@ -155,7 +167,11 @@ function App() {
         >
           <Nav className="flex-column text-white w-100 p-2">
             <Nav.Item>
-              <h3><strong>Categories</strong></h3>
+
+              <h3>
+                <strong>Categories</strong>
+              </h3>
+
             </Nav.Item>
             {categories.map((category) => (
               <Nav.Item key={category}>
@@ -174,6 +190,7 @@ function App() {
             <Routes>
               <Route path="/design/:slug" element={<DesignPage />} />
               <Route path="/cart" element={<CartPage />} />
+            
               <Route path="/search" element={<SearchPage />} />
               <Route path="/signin" element={<SigninPage />} />
               <Route path="/signup" element={<SignupPage />} />
@@ -186,6 +203,10 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+
+              <Route
+                path="/quote-calculator/:slug"
+                element={<QuoteCalculatorPage />}
 
               <Route path="/placeorder" element={<PlaceOrderPage />} />
               <Route
@@ -204,6 +225,15 @@ function App() {
                   </ProtectedRoute>
                 }
               ></Route>
+                            <Route
+                path="/quotes"
+                element={
+                  <ProtectedRoute>
+                    <QuoteListPage />
+                  </ProtectedRoute>
+                }
+              ></Route>
+
               <Route path="/shipping" element={<ShippingAddressPage />}></Route>
               <Route path="/payment" element={<PaymentMethodPage />}></Route>
               {/* Admin Routes */}
@@ -215,6 +245,7 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
+
               <Route
                 path="/admin/orders"
                 element={

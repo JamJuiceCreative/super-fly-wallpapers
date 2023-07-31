@@ -43,6 +43,7 @@ function DesignPage() {
 
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const [quoteCalculated, setQuoteCalculated] = useState(false);
 
   const navigate = useNavigate();
   const params = useParams();
@@ -69,6 +70,10 @@ function DesignPage() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
   const addToCartHandler = async () => {
+    if (!quoteCalculated || design.printToOrder === false) {
+      window.alert('Please get a quote first before adding to cart');
+      return;
+    }
     const existItem = cart.cartItems.find((x) => x._id === design._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/designs/${design._id}`);
@@ -169,15 +174,23 @@ function DesignPage() {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-                {design.printToOrder === true && (
+                {design.printToOrder === true ? (
                   <ListGroup.Item>
                     <div className="d-grid">
-                      <Button onClick={addToCartHandler} variant="primary">
-                        Add to Cart
-                      </Button>
+                      {quoteCalculated ? (
+                        <Button onClick={addToCartHandler} variant="primary">
+                          Add to Cart
+                        </Button>
+                      ) : (
+                        <Link to={`/quote-calculator/${slug}`}>
+                          {' '}
+                          {/* Redirect to the quote calculator page */}
+                          <Button>Get a Quote</Button>
+                        </Link>
+                      )}
                     </div>
                   </ListGroup.Item>
-                )}
+                ) : null}
               </ListGroup>
             </Card.Body>
           </Card>

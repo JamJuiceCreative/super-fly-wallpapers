@@ -7,8 +7,10 @@ const orderSchema = new mongoose.Schema(
         slug: { type: String, required: true },
         name: { type: String, required: true },
         quantity: { type: Number, required: true },
+        squareMeters: { type: Number, required: true },
         image: { type: String, required: true },
         price: { type: Number, required: true },
+        quotePrice: {type: Number, required: true},
         design: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Design',
@@ -44,6 +46,8 @@ const orderSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+
 
 const Order = mongoose.model('Order', orderSchema);
 export default Order;

@@ -41,17 +41,27 @@ h3 {
   text-decoration: none;
 }
 
+
+
 .btn-primary,
 .btn-outline-primary,
-.nav-bar-toggle-menu {
+.nav-bar-toggle-menu, .btn-primary:focus{
+
   border: none;
+  outline: none;
   background-color: #542d8e;
   color: #ffffff;
 }
-.btn-primary:hover {
+.btn-primary:hover, #button-search:hover {
   background-color: limegreen;
   outline: none;
   box-shadow: none;
+}
+
+
+.btn-primary:active {
+  background-color: #542d8e !important;
+
 }
 
 .purple-text,
@@ -126,6 +136,9 @@ h3 {
 }
 
 .img-large {
+  max-width: 100%;
+}
+.img-medium {
   max-width: 100%;
 }
 
@@ -208,3 +221,11 @@ h3 {
   color: white;
   font-size: 15px; /* Adjust the font size as needed */
 }
+
+.fly-rating {
+  margin: 2px;
+ width: 18px;
+ height: 18px;
+}
+span { display: inline-block}
+
