@@ -42,9 +42,11 @@ h3 {
 }
 
 
+
 .btn-primary,
 .btn-outline-primary,
 .nav-bar-toggle-menu, .btn-primary:focus{
+
   border: none;
   outline: none;
   background-color: #542d8e;
@@ -55,6 +57,7 @@ h3 {
   outline: none;
   box-shadow: none;
 }
+
 
 .btn-primary:active {
   background-color: #542d8e !important;
@@ -218,9 +221,11 @@ h3 {
   color: white;
   font-size: 15px; /* Adjust the font size as needed */
 }
+
 .fly-rating {
   margin: 2px;
  width: 18px;
  height: 18px;
 }
 span { display: inline-block}
+

@@ -1,16 +1,14 @@
-import React, { useContext, useState, useEffect } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
-import axios from 'axios';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { toast, Toaster } from 'react-hot-toast';
 import HomePage from './pages/HomePage';
 import DesignPage from './pages/DesignPage';
 import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
 import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Container from 'react-bootstrap/Container';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useContext, useEffect, useState } from 'react';
 import { Store } from './Store';
 import CartPage from './pages/CartPage';
 import SigninPage from './pages/SigninPage';
@@ -19,12 +17,14 @@ import SignupPage from './pages/SignupPage';
 import PaymentMethodPage from './pages/PaymentMethodPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import OrderPage from './pages/OrderPage';
+import OrderHistoryPage from './pages/OrderHistoryPage';
+import ProfilePage from './pages/ProfilePage';
+import Button from 'react-bootstrap/Button';
 import { getError } from './utils';
+import axios from 'axios';
 import SearchBox from './components/SearchBox';
 import SearchPage from './pages/SearchPage';
-import ProfilePage from './pages/ProfilePage';
 import ProtectedRoute from './components/ProtectedRoute';
-import OrderHistoryPage from './pages/OrderHistoryPage';
 import DashboardPage from './pages/DashboardPage';
 import AdminRoute from './components/AdminRoute';
 import DesignListPage from './pages/DesignListPage';
@@ -34,6 +34,7 @@ import UserListPage from './pages/UserListPage';
 import UserEditPage from './pages/UserEditPage';
 import QuoteCalculatorPage from './pages/QuoteCalculatorPage';
 import QuoteListPage from './pages/QuoteListPage';
+
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -46,7 +47,6 @@ function App() {
     localStorage.removeItem('paymentMethod');
     window.location.href = '/signin';
   };
-
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
 
@@ -96,6 +96,7 @@ function App() {
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
+
                 <SearchBox className="mt-3" />
                 <Nav className="me-auto  w-100  justify-content-end">
                   <Link to="/cart" className="nav-link purple-text cart-link">
@@ -106,6 +107,7 @@ function App() {
                         bg="danger"
                         className="ml-1 custom-badge-circle"
                       >
+
                         {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                       </Badge>
                     )}
@@ -165,9 +167,11 @@ function App() {
         >
           <Nav className="flex-column text-white w-100 p-2">
             <Nav.Item>
+
               <h3>
                 <strong>Categories</strong>
               </h3>
+
             </Nav.Item>
             {categories.map((category) => (
               <Nav.Item key={category}>
@@ -199,10 +203,11 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+
               <Route
                 path="/quote-calculator/:slug"
                 element={<QuoteCalculatorPage />}
-              ></Route>
+
               <Route path="/placeorder" element={<PlaceOrderPage />} />
               <Route
                 path="/order/:id"
@@ -228,7 +233,7 @@ function App() {
                   </ProtectedRoute>
                 }
               ></Route>
-              
+
               <Route path="/shipping" element={<ShippingAddressPage />}></Route>
               <Route path="/payment" element={<PaymentMethodPage />}></Route>
               {/* Admin Routes */}

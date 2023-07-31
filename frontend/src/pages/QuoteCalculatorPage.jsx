@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useReducer, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
@@ -28,6 +29,7 @@ const reducer = (state, action) => {
       return state;
   }
 };
+
 
 const QuoteCalculatorPage = () => {
   const navigate = useNavigate();
@@ -65,6 +67,10 @@ const QuoteCalculatorPage = () => {
   };
 
 
+
+  const calculateSquareMeters = () => {
+    return (length * height).toFixed(2);
+  };
 
   const calculateQuote = () => {
     const area = length * height;
@@ -205,6 +211,7 @@ const QuoteCalculatorPage = () => {
 
 
   return (
+
     <div>
       <Container className="mt-5">
         <Helmet>
@@ -295,6 +302,7 @@ const QuoteCalculatorPage = () => {
         </div>
       </Container>
     </div>
+
   );
 };
 
