@@ -79,7 +79,7 @@ function App() {
           <Navbar bg="white" variant="dark" expand="lg">
             <Container>
               <Button
-                variant="primary"
+                variant="hamburger"
                 onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
               >
                 <i className="fas fa-bars"></i>
@@ -206,7 +206,7 @@ function App() {
 
               <Route
                 path="/quote-calculator/:slug"
-                element={<QuoteCalculatorPage />}
+                element={<QuoteCalculatorPage />}></Route>
 
               <Route path="/placeorder" element={<PlaceOrderPage />} />
               <Route

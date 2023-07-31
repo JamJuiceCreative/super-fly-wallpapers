@@ -68,9 +68,6 @@ const QuoteCalculatorPage = () => {
 
 
 
-  const calculateSquareMeters = () => {
-    return (length * height).toFixed(2);
-  };
 
   const calculateQuote = () => {
     const area = length * height;

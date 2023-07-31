@@ -40,13 +40,26 @@ h3 {
   font-weight: bold;
   text-decoration: none;
 }
-
-
+.fa-bars {
+  color: white;
+}
+.btn-primary {
+  min-width: 10px;
+}
+.btn-hamburger:hover {
+  background: limegreen;
+} 
+.btn-hamburger {
+  background: #542d8e;
+} 
+.btn-hamburger:active {
+  background: #542d8e !important;
+}
 
 .btn-primary,
 .btn-outline-primary,
 .nav-bar-toggle-menu, .btn-primary:focus{
-
+  
   border: none;
   outline: none;
   background-color: #542d8e;
