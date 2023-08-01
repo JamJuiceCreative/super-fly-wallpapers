@@ -15,11 +15,12 @@ function Design(props) {
     cart: { cartItems },
   } = state;
   const [quoteCalculated, setQuoteCalculated] = useState(false);
-  const [isFavorited, setIsFavorited] = useState(design.favorite || true);
 
-  const toggleFavoriteHandler = () => {
-    // Call the toggleFavoriteHandler from the Favorite component
-    Favorite.toggleFavoriteHandler(design);
+  const [isFavorited, setIsFavorited] = useState(design.favorite || false);
+
+  const toggleFavoriteHandler = (design) => {
+    console.log('Design Data:', design);
+    localStorage.setItem('designInfo', JSON.stringify(design));
   };
 
   const addToCartHandler = async (item) => {

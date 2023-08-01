@@ -29,20 +29,28 @@ favoriteRouter.get(
 );
 
 favoriteRouter.post(
-  '/:userId/:designId',
+  '/:userId',
   expressAsyncHandler(async (req, res) => {
     try {
       const userId = req.params.userId;
-      const designIdToAdd = req.params.designId;
+      const favoriteToAdd = req.body.favorite;
 
-      // Find the user by userId and update their favorites array with the designIdToAdd...
-      // ...
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      if (!user.favorites.includes(favoriteToAdd)) {
+        user.favorites.push(favoriteToAdd);
+        await user.save();
+      }
+
+      res.status(200).json({ message: 'Favorite added successfully' });
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' });
     }
   })
 );
-
 
 
 export default favoriteRouter;

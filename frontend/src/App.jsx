@@ -34,6 +34,7 @@ import UserListPage from './pages/UserListPage';
 import UserEditPage from './pages/UserEditPage';
 import QuoteCalculatorPage from './pages/QuoteCalculatorPage';
 import QuoteListPage from './pages/QuoteListPage';
+import Favorite from './components/Favorite';
 
 
 function App() {
@@ -190,7 +191,7 @@ function App() {
             <Routes>
               <Route path="/design/:slug" element={<DesignPage />} />
               <Route path="/cart" element={<CartPage />} />
-            
+              <Route path="/favorite" element={<Favorite/>} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/signin" element={<SigninPage />} />
               <Route path="/signup" element={<SignupPage />} />
