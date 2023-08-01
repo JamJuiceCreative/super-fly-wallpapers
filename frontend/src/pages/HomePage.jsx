@@ -23,6 +23,7 @@ const reducer = (state, action) => {
 };
 
 function HomePage() {
+  
   const [{ loading, error, designs }, dispatch] = useReducer(reducer, {
     designs: [],
     loading: true,

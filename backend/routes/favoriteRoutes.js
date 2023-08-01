@@ -39,18 +39,11 @@ favoriteRouter.post(
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
-
-      if (!user.favorites.includes(favoriteToAdd)) {
-        user.favorites.push(favoriteToAdd);
-        await user.save();
-      }
-
+      user.favorites.push(favoriteToAdd);
+      await user.save
       res.status(200).json({ message: 'Favorite added successfully' });
-    } catch (error) {
-      res.status(500).json({ message: 'Internal server error' });
-    }
+    } catch (error) {}
   })
 );
-
 
 export default favoriteRouter;
