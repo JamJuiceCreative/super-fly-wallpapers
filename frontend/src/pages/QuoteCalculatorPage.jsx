@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useReducer, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
@@ -15,8 +14,6 @@ import Rating from '../components/Rating';
 import { Store } from '../Store';
 import { getError } from '../utils';
 
-
-
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SAVE_QUOTE_REQUEST':
@@ -30,7 +27,6 @@ const reducer = (state, action) => {
   }
 };
 
-
 const QuoteCalculatorPage = () => {
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -42,8 +38,7 @@ const QuoteCalculatorPage = () => {
   const [height, setHeight] = useState('');
   const [quote, setQuote] = useState('');
   const [quoteCalculated, setQuoteCalculated] = useState(false);
-  
-  
+
   const [{ loading }, dispatch] = useReducer(reducer, {
     loading: false,
   });
@@ -66,9 +61,6 @@ const QuoteCalculatorPage = () => {
     return (length * height).toFixed(2);
   };
 
-
-
-
   const calculateQuote = () => {
     const area = length * height;
     const quote = area * squareMeterPrice;
@@ -84,7 +76,6 @@ const QuoteCalculatorPage = () => {
     setHeight(event.target.value);
     setQuoteCalculated(false);
   };
-
 
   const calculateQuoteHandler = async () => {
     if (!length || !height) {
@@ -166,14 +157,14 @@ const QuoteCalculatorPage = () => {
       window.alert('Please get a quote first before adding to cart');
       return;
     }
-  
+
     const existingItem = cart.cartItems.find(
       (item) =>
         item._id === design._id &&
         item.squareMeters === calculateSquareMeters() &&
         item.quotePrice === quote
     );
-  
+
     if (existingItem) {
       // Item already exists with the same dimensions, increase quantity by 1
       const newCartItems = cart.cartItems.map((item) =>
@@ -181,7 +172,7 @@ const QuoteCalculatorPage = () => {
           ? { ...item, quantity: item.quantity + 1 }
           : item
       );
-  
+
       // Dispatch the action to update the quantity of the existing item
       ctxDispatch({ type: 'CART_UPDATE_ITEMS', payload: newCartItems });
     } else {
@@ -192,23 +183,15 @@ const QuoteCalculatorPage = () => {
         squareMeters: calculateSquareMeters(),
         quotePrice: quote,
       };
-  
+
       // Dispatch the action to add the new item to the cart
       ctxDispatch({ type: 'CART_ADD_ITEM', payload: itemToAdd });
     }
-  
+
     navigate('/cart');
   };
-  
-  
-
-  
-  
-  
-
 
   return (
-
     <div>
       <Container className="mt-5">
         <Helmet>
@@ -238,28 +221,36 @@ const QuoteCalculatorPage = () => {
                       />
                     </Form.Group>
                   </Form>
+
                   {length && height && (
-                    <div className="d-flex justify-content-between align-items-center">
-                      <span>
+                    <Row className="d-flex justify-content-between align-items-center">
+                      <Col>
                         Calculated Square Meters: {calculateSquareMeters()}
-                      </span>
-                      {quoteCalculated ? (
-                        <div className="d-flex gap-2 align-items-center">
-                          <div>Quote: ${quote}</div>
+                      </Col>
+                      <Col>
+                        {quoteCalculated ? (
+                          <div className="d-flex gap-2 align-items-center">
+                            <div>Quote: ${quote}</div>
+                            <Button
+                              onClick={addToCartHandler}
+                              disabled={!quoteCalculated}
+                            >
+                              Add to Cart
+                            </Button>
+                            <Button onClick={saveQuoteHandler}>
+                              Save Quote
+                            </Button>
+                          </div>
+                        ) : (
                           <Button
-                            onClick={addToCartHandler}
-                            disabled={!quoteCalculated}
+                            className="m-4"
+                            onClick={calculateQuoteHandler}
                           >
-                            Add to Cart
+                            Calculate Quote
                           </Button>
-                          <Button onClick={saveQuoteHandler}>Save Quote</Button>
-                        </div>
-                      ) : (
-                        <Button className= "m-4"onClick={calculateQuoteHandler}>
-                          Calculate Quote
-                        </Button>
-                      )}
-                    </div>
+                        )}
+                      </Col>
+                    </Row>
                   )}
                 </Card>
               </Col>
@@ -299,7 +290,6 @@ const QuoteCalculatorPage = () => {
         </div>
       </Container>
     </div>
-
   );
 };
 
