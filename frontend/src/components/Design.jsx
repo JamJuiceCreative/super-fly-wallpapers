@@ -61,9 +61,9 @@ function Design(props) {
         <Link to={`/design/${design.slug}`}>
           <Card.Title className="design-title ">{design.name}</Card.Title>
         </Link>
-        <Card.Text className="text-nowrap overflow-hidden">
+        <div className="text-nowrap overflow-hidden">
           <Rating rating={design.rating} numReviews={design.numReviews} />
-        </Card.Text>
+        </div>
         <Card.Text>
           <strong>From ${design.price} </strong>
         </Card.Text>
