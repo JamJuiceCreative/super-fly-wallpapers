@@ -23,6 +23,7 @@
 }
 .site-container {
   min-height: 100vh;
+  margin-left: 0;
 }
 
 main {
@@ -190,6 +191,7 @@ h3 {
   transition: 0.5s;
   border: solid #542d8e 3px;
   border-top-right-radius: 15px;
+  z-index: 1;
 }
 .site-container {
   transition: 0.4s;
@@ -241,4 +243,21 @@ h3 {
  height: 18px;
 }
 span { display: inline-block}
-
+.hamburger-small-screens{
+  display: none;
+  width: 40px;
+}
+@media screen and (max-width: 767px) {
+  .site-container.active-cont {
+    margin-left: 0; /* Set the margin-left to 0 so that the sidebar covers everything */
+  }
+  .hamburger-small-screens{
+    display: block;
+    max-width: 50px;
+  }
+  .hamburger-small-screens:hover{
+    background-color: limegreen;
+    display: block;
+    max-width: 50px;
+  }
+}

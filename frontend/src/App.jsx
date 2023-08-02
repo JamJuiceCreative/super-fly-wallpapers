@@ -35,7 +35,6 @@ import UserEditPage from './pages/UserEditPage';
 import QuoteCalculatorPage from './pages/QuoteCalculatorPage';
 import QuoteListPage from './pages/QuoteListPage';
 
-
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { fullBox, cart, userInfo } = state;
@@ -61,6 +60,10 @@ function App() {
     };
     fetchCategories();
   }, []);
+
+  const handleToggleSidebar = () => {
+    setSidebarIsOpen(!sidebarIsOpen);
+  };
   return (
     <BrowserRouter>
       <div
@@ -96,7 +99,6 @@ function App() {
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
-
                 <SearchBox className="mt-3" />
                 <Nav className="me-auto  w-100  justify-content-end">
                   <Link to="/cart" className="nav-link purple-text cart-link">
@@ -107,7 +109,6 @@ function App() {
                         bg="danger"
                         className="ml-1 custom-badge-circle"
                       >
-
                         {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                       </Badge>
                     )}
@@ -167,12 +168,22 @@ function App() {
         >
           <Nav className="flex-column text-white w-100 p-2">
             <Nav.Item>
-
-              <h3>
-                <strong>Categories</strong>
-              </h3>
-
+              <div className="d-flex align-items-center justify-content-between mb-2">
+                <h3 className="mb-0 me-2">
+                  <strong>Categories</strong>
+                </h3>
+                <Button
+                  variant="small-screens"
+                  type="button"
+                  className="btn btn-hamburger hamburger-small-screens"
+                  onClick={handleToggleSidebar}
+                  
+                >
+                  <i className="fas fa-bars"></i>
+                </Button>
+              </div>
             </Nav.Item>
+      
             {categories.map((category) => (
               <Nav.Item key={category}>
                 <LinkContainer
@@ -190,7 +201,7 @@ function App() {
             <Routes>
               <Route path="/design/:slug" element={<DesignPage />} />
               <Route path="/cart" element={<CartPage />} />
-            
+
               <Route path="/search" element={<SearchPage />} />
               <Route path="/signin" element={<SigninPage />} />
               <Route path="/signup" element={<SignupPage />} />
@@ -206,7 +217,8 @@ function App() {
 
               <Route
                 path="/quote-calculator/:slug"
-                element={<QuoteCalculatorPage />}></Route>
+                element={<QuoteCalculatorPage />}
+              ></Route>
 
               <Route path="/placeorder" element={<PlaceOrderPage />} />
               <Route
@@ -225,7 +237,7 @@ function App() {
                   </ProtectedRoute>
                 }
               ></Route>
-                            <Route
+              <Route
                 path="/quotes"
                 element={
                   <ProtectedRoute>
