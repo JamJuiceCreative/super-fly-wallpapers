@@ -192,13 +192,13 @@ const QuoteCalculatorPage = () => {
   };
 
   return (
-    <div>
+    <div className="d-flex flex-wrap justify-content-center">
+      <Helmet>
+        <title>Quote Calculator - {slug}</title>
+      </Helmet>
+      <h1 className="text-center mb-4">Wall Quote Calculator</h1>
       <Container className="mt-5">
-        <Helmet>
-          <title>Quote Calculator - {slug}</title>
-        </Helmet>
-        <h1 className="text-center mb-4">Wall Quote Calculator</h1>
-        <div className="d-flex flex-wrap justify-content-center gap-4">
+        <div className=" gap-4">
           <Row>
             {design && (
               <Col md={6} sm={12}>
@@ -210,6 +210,11 @@ const QuoteCalculatorPage = () => {
                         type="number"
                         value={length}
                         onChange={handleLengthChange}
+                        onKeyPress={(e) => {
+                          if (e.key === '-') {
+                            e.preventDefault();
+                          }
+                        }}
                       />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="height">
@@ -218,29 +223,42 @@ const QuoteCalculatorPage = () => {
                         type="number"
                         value={height}
                         onChange={handleHeightChange}
+                        onKeyPress={(e) => {
+                          if (e.key === '-') {
+                            e.preventDefault();
+                          }
+                        }}
                       />
                     </Form.Group>
                   </Form>
 
                   {length && height && (
                     <Row className="d-flex justify-content-between align-items-center">
-                      <Col>
+                      <Col xs={12} className="whitespace-nowrap my-2">
                         Calculated Square Meters: {calculateSquareMeters()}
                       </Col>
-                      <Col>
+                      <Col xs={12}>
                         {quoteCalculated ? (
-                          <div className="d-flex gap-2 align-items-center">
-                            <div>Quote: ${quote}</div>
-                            <Button
-                              onClick={addToCartHandler}
-                              disabled={!quoteCalculated}
-                            >
-                              Add to Cart
-                            </Button>
-                            <Button onClick={saveQuoteHandler}>
-                              Save Quote
-                            </Button>
-                          </div>
+                          <>
+                            <div className="whitespace-nowrap my-2">
+                              Quote: ${quote}
+                            </div>
+                            <div className="d-flex flex-wrap gap-2 justify-content-end align-items-center">
+                              <div>
+                                <Button
+                                  onClick={addToCartHandler}
+                                  disabled={!quoteCalculated}
+                                >
+                                  Add to Cart
+                                </Button>
+                              </div>
+                              <div>
+                                <Button onClick={saveQuoteHandler}>
+                                  Save Quote
+                                </Button>
+                              </div>
+                            </div>
+                          </>
                         ) : (
                           <Button
                             className="m-4"

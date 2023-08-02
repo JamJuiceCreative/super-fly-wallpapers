@@ -12,15 +12,15 @@ function Design(props) {
   const {
     cart: { cartItems },
   } = state;
-  const [quoteCalculated, setQuoteCalculated] = useState(false)
+  const [quoteCalculated, setQuoteCalculated] = useState(false);
   const addToCartHandler = async (item) => {
     const existItem = cartItems.find((x) => x._id === design._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/designs/${item._id}`);
-    if (!quoteCalculated){
-            // Show a message or alert to inform the user to get a quote first
-            window.alert('Please calculate the quote first before adding to cart.');
-            return;
+    if (!quoteCalculated) {
+      // Show a message or alert to inform the user to get a quote first
+      window.alert('Please calculate the quote first before adding to cart.');
+      return;
     }
     if (data.printToOrder === false) {
       window.alert('Sorry. Design is currently not available for print');
@@ -40,7 +40,9 @@ function Design(props) {
         <Link to={`/design/${design.slug}`}>
           <Card.Title className="design-title ">{design.name}</Card.Title>
         </Link>
-        <Rating rating={design.rating} numReviews={design.numReviews} />
+        <Card.Text className="text-nowrap overflow-hidden">
+          <Rating rating={design.rating} numReviews={design.numReviews} />
+        </Card.Text>
         <Card.Text>
           <strong>From ${design.price} </strong>
         </Card.Text>
@@ -51,7 +53,9 @@ function Design(props) {
         ) : quoteCalculated ? (
           <Button onClick={() => addToCartHandler(design)}>Add to cart</Button>
         ) : (
-          <Link to={`/quote-calculator/${design.slug}`}> {/* Redirect to the quote calculator page */}
+          <Link to={`/quote-calculator/${design.slug}`}>
+            {' '}
+            {/* Redirect to the quote calculator page */}
             <Button>Get a Quote</Button>
           </Link>
         )}
