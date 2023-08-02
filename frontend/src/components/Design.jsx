@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -15,8 +15,25 @@ function Design(props) {
     cart: { cartItems },
   } = state;
 
-  const [isFavorited, setIsFavorited] = useState(design.favorite || false);
+  const initialIsFavorited = localStorage.getItem(`favorite_design_${design._id}`);
+  const [isFavorited, setIsFavorited] = useState(initialIsFavorited === 'true');
+
   const [quoteCalculated, setQuoteCalculated] = useState(false);
+
+
+
+
+
+  const toggleFavoriteHandler = () => {
+    setIsFavorited((prevIsFavorited) => !prevIsFavorited);
+  };
+
+  useEffect(() => {
+    // Save the favorited status to the local storage whenever it changes
+    localStorage.setItem(`favorite_design_${design._id}`, isFavorited);
+  }, [design._id, isFavorited]);
+
+
   const addToCartHandler = async (item) => {
     const existItem = cartItems.find((x) => x._id === design._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
@@ -36,7 +53,7 @@ function Design(props) {
     });
   };
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <Link to={`/design/${design.slug}`}>
         <img src={design.image} className="card-img-top" alt={design.name} />
       </Link>
@@ -50,7 +67,7 @@ function Design(props) {
         <Card.Text>
           <strong>From ${design.price} </strong>
         </Card.Text>
-        <div>
+        <div className="quote-btn-container d-flex justify-content-between">
           {design.printToOrder === false ? (
             <Button variant="light" disabled>
               Not Available
@@ -66,14 +83,12 @@ function Design(props) {
               <Button>Get a Quote</Button>
             </Link>
           )}{' '}
-          <div className="d-flex align-items-center justify-content-between">
-            <img
-              className="heart-icon"
-              src={isFavorited ? HeartFull : HeartEmpty}
-              alt={isFavorited ? 'Favorited' : 'Not favorited'}
-              onClick={() => toggleFavoriteHandler(design)} // Capture the 'design' object and pass it to the handler
-            />
-          </div>
+          <img
+            className="heart-icon"
+            src={isFavorited ? HeartFull : HeartEmpty}
+            alt={isFavorited ? 'Favorited' : 'Not favorited'}
+            onClick={() => toggleFavoriteHandler(design)} // Capture the 'design' object and pass it to the handler
+          />
         </div>
       </Card.Body>
     </Card>
