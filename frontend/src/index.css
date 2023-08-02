@@ -247,6 +247,12 @@ span { display: inline-block}
   display: none;
   width: 40px;
 }
+
+.heart-icon {
+  min-width: 40px;
+  width: 20%;
+  cursor: pointer;
+}
 @media screen and (max-width: 767px) {
   .site-container.active-cont {
     margin-left: 0; /* Set the margin-left to 0 so that the sidebar covers everything */

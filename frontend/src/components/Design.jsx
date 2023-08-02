@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import Rating from './Rating';
 import axios from 'axios';
 import { Store } from '../Store';
+import HeartFull from '../assets/heart-full.svg';
+import HeartEmpty from '../assets/heart-empty.svg';
 
 function Design(props) {
   const { design } = props;
@@ -12,6 +14,8 @@ function Design(props) {
   const {
     cart: { cartItems },
   } = state;
+
+  const [isFavorited, setIsFavorited] = useState(design.favorite || false);
   const [quoteCalculated, setQuoteCalculated] = useState(false);
   const addToCartHandler = async (item) => {
     const existItem = cartItems.find((x) => x._id === design._id);
@@ -58,7 +62,15 @@ function Design(props) {
             {/* Redirect to the quote calculator page */}
             <Button>Get a Quote</Button>
           </Link>
-        )}
+        )}{' '}
+        <div>
+        <img
+            className="heart-icon"
+            src={isFavorited ? HeartFull : HeartEmpty}
+            alt={isFavorited ? 'Favorited' : 'Not favorited'}
+            onClick={() => toggleFavoriteHandler(design)} // Capture the 'design' object and pass it to the handler
+          />
+        </div>
       </Card.Body>
     </Card>
   );
