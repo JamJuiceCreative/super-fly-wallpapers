@@ -50,26 +50,30 @@ function Design(props) {
         <Card.Text>
           <strong>From ${design.price} </strong>
         </Card.Text>
-        {design.printToOrder === false ? (
-          <Button variant="light" disabled>
-            Not Available
-          </Button>
-        ) : quoteCalculated ? (
-          <Button onClick={() => addToCartHandler(design)}>Add to cart</Button>
-        ) : (
-          <Link to={`/quote-calculator/${design.slug}`}>
-            {' '}
-            {/* Redirect to the quote calculator page */}
-            <Button>Get a Quote</Button>
-          </Link>
-        )}{' '}
         <div>
-        <img
-            className="heart-icon"
-            src={isFavorited ? HeartFull : HeartEmpty}
-            alt={isFavorited ? 'Favorited' : 'Not favorited'}
-            onClick={() => toggleFavoriteHandler(design)} // Capture the 'design' object and pass it to the handler
-          />
+          {design.printToOrder === false ? (
+            <Button variant="light" disabled>
+              Not Available
+            </Button>
+          ) : quoteCalculated ? (
+            <Button onClick={() => addToCartHandler(design)}>
+              Add to cart
+            </Button>
+          ) : (
+            <Link to={`/quote-calculator/${design.slug}`}>
+              {' '}
+              {/* Redirect to the quote calculator page */}
+              <Button>Get a Quote</Button>
+            </Link>
+          )}{' '}
+          <div className="d-flex align-items-center justify-content-between">
+            <img
+              className="heart-icon"
+              src={isFavorited ? HeartFull : HeartEmpty}
+              alt={isFavorited ? 'Favorited' : 'Not favorited'}
+              onClick={() => toggleFavoriteHandler(design)} // Capture the 'design' object and pass it to the handler
+            />
+          </div>
         </div>
       </Card.Body>
     </Card>
