@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { Store } from '../Store';
 import axios from 'axios';
 
+
 export default function Favorites() {
   const { state } = useContext(Store);
   const { userInfo } = state;
@@ -22,36 +23,36 @@ export default function Favorites() {
     console.log('Design Data:', designData);
   };
 
-  const handleSendDataClick = () => {
+  
+// correctly can send a string to the backend
+  // const handleSendDataClick = async () => {
+  //   const designData = JSON.parse(localStorage.getItem('designInfo'));
+  //   console.log('Design Data:', designData);
+  //   console.log('User Data:', userInfo);
+  
+  //   const dataToSend = "Monkey Magic"; // This is the data you want to send
+  
+  //   const userId = userInfo._id;
+  
+  //   axios.post(`/api/favorites/${userId}`, { favorite: dataToSend })
+  //     .then(response => {
+  //       console.log(response.data.message); // Log the response message
+  //     })
+  //     .catch(error => {
+  //       console.error('Error:', error.message);
+  //     });
+  // };
+  const handleSendDataClick = async () => {
     const designData = JSON.parse(localStorage.getItem('designInfo'));
+    console.log('Design Data:', designData);
+    console.log('User Data:', userInfo);
   
-    // Check if user info is available
-    if (!userInfo) {
-      console.log('User information is not available');
-      return;
-    }
+    // Get the design ID (assuming it's stored in the _id property of designData)
+    const designId = designData._id;
   
-    // Check if design data is available
-    if (!designData) {
-      console.log('Design data is not available');
-      return;
-    }
-  
-    // Check if all the required fields are present in the design data
-    const requiredFields = ['name', 'slug', 'image', 'style', 'category', 'description', 'price', 'printToOrder', 'rating', 'numReviews', 'reviews'];
-    const presentFields = requiredFields.filter(field => field in designData);
-  
-    console.log('Present fields in the design data:', presentFields);
-  
-    // Get the user ID
     const userId = userInfo._id;
   
-    // Log the User Data and Design Data (Optional)
-    console.log('User Data:', userInfo);
-    console.log('Design Data:', designData);
-  
-    // Make the POST request to the backend
-    axios.post(`/api/favorites/${userId}`, { favorite: designData })
+    axios.post(`/api/favorites/${userId}`, { favorite: designId })
       .then(response => {
         console.log(response.data.message); // Log the response message
       })
@@ -59,7 +60,6 @@ export default function Favorites() {
         console.error('Error:', error.message);
       });
   };
-  
   
 
   return (

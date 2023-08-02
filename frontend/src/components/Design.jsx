@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -8,19 +8,121 @@ import { Store } from '../Store';
 import HeartFull from '../assets/heart-full.svg';
 import HeartEmpty from '../assets/heart-empty.svg';
 
+
+const favoritesReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_FAVORITES':
+      return {
+        ...state,
+        favorites: action.payload,
+      };
+    case 'ADD_FAVORITE':
+      return {
+        ...state,
+        favorites: [...state.favorites, action.payload],
+      };
+    case 'REMOVE_FAVORITE':
+      return {
+        ...state,
+        favorites: state.favorites.filter((id) => id !== action.payload),
+      };
+    default:
+      return state;
+  }
+};
+
+
 function Design(props) {
   const { design } = props;
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
     cart: { cartItems },
+    userInfo,
   } = state;
   const [quoteCalculated, setQuoteCalculated] = useState(false);
 
-  const [isFavorited, setIsFavorited] = useState(design.favorite || false);
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [favorites, setFavorites] = useState([]);
+  
+  
+  
+  const initialState = {
+    favorites: [], // Initial state for favorites
+  };
+  const [favoritesState, favoritesDispatch] = useReducer(
+    favoritesReducer,
+    initialState
+  );
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        if (!userInfo.token) {
+          return; // Do not proceed if token is not available yet
+        }
+  
+        const response = await axios.get(`/api/favorites/${userInfo._id}`, {
+          headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        });
+        const userData = response.data;
+        favoritesDispatch({ type: 'SET_FAVORITES', payload: userData.favorites });
+        console.log('Favorites array on mount:', userData.favorites); // Add this line
+      } catch (error) {
+        console.error('Error fetching user favorites:', error.message);
+      }
+    };
+  
+    fetchFavorites();
+  }, [userInfo]);
+  
 
-  const toggleFavoriteHandler = (design) => {
+  const toggleFavoriteHandler = async (design) => {
+    console.log('User Data:', userInfo);
     console.log('Design Data:', design);
-    localStorage.setItem('designInfo', JSON.stringify(design));
+
+    try {
+      await axios.post(`/api/favorites/${userInfo._id}`, {
+        favorite: design._id,
+      });
+      console.log('Design added to favorites');
+    } catch (error) {
+      console.error('Error adding design to favorites:', error.message);
+    }
+  };
+
+
+
+  const removeFavorite = async (design) => {
+    console.log('User Data:', userInfo);
+    console.log('Design Data:', design);
+
+    try {
+      await axios.delete(`/api/favorites/remove/${userInfo._id}`, {
+        data: { favorite: design._id },
+      });
+      console.log('Design removed from favorites');
+      setIsFavorited(false); // Update the state to show heart-empty after removing from favorites
+    } catch (error) {
+      console.error('Error removing design from favorites:', error.message);
+    }
+  };
+
+
+  const showFavoritesHandler = async () => {
+    console.log('User Data:', userInfo);
+    console.log('Design Data:', design);
+    try {
+      const response = await axios.get(`/api/favorites/${userInfo._id}`, {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      });
+      const userData = response.data;
+      console.log('Favorites array in user document:', userData.favorites);
+    } catch (error) {
+      console.error('Error fetching user data:', error.message);
+    }
   };
 
   const addToCartHandler = async (item) => {
@@ -70,13 +172,24 @@ function Design(props) {
               <Button>Get a Quote</Button>
             </Link>
           )}{' '}
+           {!favorites.includes(design._id) && (
           <img
             className="heart-icon"
-            src={isFavorited ? HeartFull : HeartEmpty}
-            alt={isFavorited ? 'Favorited' : 'Not favorited'}
-            onClick={() => toggleFavoriteHandler(design)} // Capture the 'design' object and pass it to the handler
+            src={HeartEmpty}
+            alt="Not favorited"
+            onClick={() => toggleFavoriteHandler(design)}
           />
+          )}
+        {favorites.includes(design._id) && (
+          <img
+            className="heart-icon"
+            src={HeartFull}
+            alt={'Favorited'}
+            onClick={() => removeFavourite(design)}
+          />
+        )}
         </div>
+        <button onClick={showFavoritesHandler}>Show Favorites</button>
       </Card.Body>
     </Card>
   );
