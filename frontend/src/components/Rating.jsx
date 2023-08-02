@@ -1,17 +1,19 @@
-import FlyIcon from '../assets/fly-icon.svg'
-import FlyIconHalf from '../assets/fly-icon-half.svg'
-import FlyIconEmpty from '../assets/fly-icon-empty.svg'
-
+import React from 'react';
+import FlyIcon from '../assets/fly-icon.svg';
+import FlyIconHalf from '../assets/fly-icon-half.svg';
+import FlyIconEmpty from '../assets/fly-icon-empty.svg';
 
 function Rating(props) {
   const { rating, numReviews, caption } = props;
 
-  const getFlyIcon = (filled)=> {
+  const getFlyIcon = (filled) => {
     return filled ? <FlyIcon /> : <FlyIconEmpty />;
-  }
+  };
+
   const getFlyIconHalf = () => {
-    return <FlyIconHalf />
-  }
+    return <FlyIconHalf />;
+  };
+
   return (
     <div className="rating d-flex">
       <span>
@@ -52,10 +54,10 @@ function Rating(props) {
       {caption ? (
         <span>{caption}</span>
       ) : (
-        <span className>{' ' + numReviews + ' ratings'}</span>
+        <span>{' ' + numReviews + ' ratings'}</span>
       )}
-      
     </div>
   );
 }
+
 export default Rating;
