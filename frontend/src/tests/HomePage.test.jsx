@@ -1,12 +1,12 @@
 // Import the necessary testing libraries
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import HomePage from '../pages/HomePage';
-import axios from 'axios';
+// import React from 'react';
+// import { render, screen, waitFor } from '@testing-library/react';
+// import HomePage from '../pages/HomePage';
+// import axios from 'axios';
 
 test('placeholder test for HomePage', () => {
-  // You can add any content here, or leave it empty as a placeholder
-  expect(true).toBe(true); // This is a placeholder assertion, it will pass
+  
+  expect(true).toBe(true); 
 });
 
 // // Mock the axios.get function to return mock data
