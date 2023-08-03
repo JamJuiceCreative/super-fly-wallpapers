@@ -40,7 +40,7 @@ app.get('/api/keys/paypal', (req, res) => {
 
 // Configure CORS to allow requests from your frontend domain
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:3000', 'https://superfly-wallpapers-e6d83528d884.herokuapp.com/' ], // Add more origins if needed
+origin: [{/*'http://localhost:5173', 'http://localhost:3000',*/}, 'https://superfly-wallpapers-e6d83528d884.herokuapp.com/' ], // Add more origins if needed
 };
 
 // Enable CORS with the specified options
