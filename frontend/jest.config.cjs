@@ -2,10 +2,9 @@ const { defaults } = require('jest-config');
 
 module.exports = {
   transform: {
-    '^.+\\.jsx?$': 'babel-jest'
+    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.svg$': 'jest-transform-stub',
   },
   testEnvironment: 'jest-environment-jsdom',
-  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'] // Add this line
+  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
 };
-
-
