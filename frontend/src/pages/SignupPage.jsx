@@ -89,7 +89,7 @@ export default function SignupScreen() {
         </div>
         <div className="mb-3">
           Already have an account?{' '}
-          <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
+          <Link to={`/signin?redirect=${redirect}`} className ="hyperlink-text"><strong>Sign-In</strong></Link>
         </div>
       </Form>
     </Container>

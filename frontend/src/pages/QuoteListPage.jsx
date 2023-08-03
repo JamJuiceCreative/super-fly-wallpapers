@@ -147,7 +147,7 @@ export default function QuoteListPage() {
                 <td>
                   <Button
                     type="button"
-                    variant="light"
+                    variant="primary"
                     onClick={() => addToCartHandler(quote)}
                   >
                     Add to Cart
