@@ -122,7 +122,7 @@ export default function OrderListPage() {
                 <td>
                   <Button
                     type="button"
-                    variant="light"
+                    variant="primary"
                     onClick={() => {
                       navigate(`/order/${order._id}`);
                     }}
@@ -132,7 +132,7 @@ export default function OrderListPage() {
                   &nbsp;
                   <Button
                     type="button"
-                    variant="light"
+                    variant="primary"
                     onClick={() => {
                       deleteHandler(order);
                     }}

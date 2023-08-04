@@ -115,7 +115,7 @@ export default function UserListPage() {
                 <td>
                   <Button
                     type="button"
-                    variant="light"
+                    variant="primary"
                     onClick={() => navigate(`/admin/user/${user._id}`)}
                   >
                     Edit
@@ -123,7 +123,7 @@ export default function UserListPage() {
                   &nbsp;
                   <Button
                     type="button"
-                    variant="light"
+                    variant="primary"
                     onClick={() => deleteHandler(user)}
                   >
                     Delete

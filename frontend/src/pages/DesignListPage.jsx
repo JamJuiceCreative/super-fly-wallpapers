@@ -179,7 +179,7 @@ export default function DesignListPage() {
                   <td>
                     <Button
                       type="button"
-                      variant="light"
+                      variant="primary"
                       onClick={() => navigate(`/admin/design/${design._id}`)}
                     >
                       Edit
@@ -187,7 +187,7 @@ export default function DesignListPage() {
                     &nbsp; &nbsp;
                     <Button
                       type="button"
-                      variant="light"
+                      variant="primary"
                       onClick={() => deleteHandler(design)}
                     >
                       Delete

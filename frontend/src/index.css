@@ -46,6 +46,7 @@ h3 {
 }
 .btn-primary {
   min-width: 120px;
+  margin: 5px;
 }
 .btn-hamburger:hover {
   background: limegreen;
